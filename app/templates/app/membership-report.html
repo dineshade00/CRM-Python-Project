@@ -1,0 +1,236 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+
+        #printable-report,
+        #printable-report * {
+          visibility: visible;
+        }
+
+        #printable-report {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          overflow: visible !important;
+        }
+
+        .dataTables_wrapper,
+        #reportTableContainer {
+          overflow: visible !important;
+          height: auto !important;
+        }
+
+        .dataTables_filter,
+        .dataTables_length,
+        .dataTables_info,
+        .dataTables_paginate,
+        .print-btn {
+          display: none !important;
+        }
+
+        table,
+        thead,
+        tbody,
+        tr,
+        td,
+        th {
+          page-break-inside: avoid !important;
+          page-break-after: auto;
+        }
+
+        table.dataTable {
+          width: 100% !important;
+        }
+      }
+    </style>
+
+
+
+
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div
+                  class="page-title-box d-flex align-items-center justify-content-between"
+                >
+                  <h4 class="mb-sm-0">Membership Report</h4>
+
+                  <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                      <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                      </li>
+                      <li class="breadcrumb-item active">MembershipReport</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end row -->
+
+            <!-- Date Picker -->
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <i class="fas fa-rupee-sign fs-14 text-muted"></i>
+                </div>
+                <h4 class="card-title mb-0">Membership Report</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+  <!-- Total Members -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">Total Members</p>
+        <h5 class="mb-0 fw-bold fs-4">{{ total_members }}</h5>
+        <div class="d-flex align-items-center mt-2">
+          <i class="mdi mdi-menu-up text-success"></i>
+          <span class="text-success ms-1">Our Total Gym Members</span>
+        </div>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 56px; height: 56px">
+        <i class="mdi mdi-currency-usd text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Members Expiring This Month -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">Members Expiring this Month</p>
+        <h5 class="mb-0 fw-bold fs-4">{{ expiring_this_month }}</h5>
+        <div class="d-flex align-items-center mt-2">
+          <i class="mdi mdi-menu-up text-success"></i>
+          <span class="text-success ms-1">Current Month</span>
+        </div>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 56px; height: 56px">
+        <i class="mdi mdi-trending-up text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Members -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">Active Members</p>
+        <h5 class="mb-0 fw-bold fs-4">{{ active_members }}</h5>
+        <div class="d-flex align-items-center mt-2">
+          <i class="mdi mdi-menu-up text-success"></i>
+          <span class="text-success ms-1">Current Active Members</span>
+        </div>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 56px; height: 56px">
+        <i class="mdi mdi-account-multiple text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expired Members -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">Expired Members</p>
+        <h5 class="mb-0 fw-bold fs-4">{{ expired_members }}</h5>
+        <div class="d-flex align-items-center mt-2">
+          <i class="mdi mdi-menu-down text-danger"></i>
+          <span class="text-danger ms-1">Expired</span>
+        </div>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 56px; height: 56px">
+        <i class="mdi mdi-target text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                <hr />
+<div class="container mt-4">
+  <h3 class="mb-3">Membership Report</h3>
+
+  <!-- Month selection form -->
+  <form method="POST" class="row g-3 mb-4">
+    {% csrf_token %}
+    <div class="col-md-4">
+      <label class="form-label">Select Month</label>
+      <input type="month" name="month" value="{{ selected_month }}" class="form-control">
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Membership Type</th>
+          <th>Amount Paid</th>
+          <th>Joining Date</th>
+          <th>Expiry Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if members %}
+          {% for m in members %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ m.first_name }} {{ m.last_name }}</td>
+              <td>{{ m.email }}</td>
+              <td>{{ m.contact }}</td>
+              <td>{{ m.membership_type }}</td>
+              <td>₹ {{ m.amount_paid }}</td>
+              <td>{{ m.joining_date }}</td>
+              <td>{{ m.expiry_date }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="8" class="text-center">No members found for this month.</td>
+          </tr>
+        {% endif %}
+      </tbody>
+      <tfoot>
+        <tr class="table-secondary fw-bold">
+          <td colspan="5" class="text-end">Total Members:</td>
+          <td colspan="3">
+            {{ total_members }} | Total Revenue: ₹ {{ total_revenue }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+
+    <!-- end main content-->
+    <script src="{% static 'assets/js/membership-report.js' %}"></script>
+  
+
+ {% endblock %}

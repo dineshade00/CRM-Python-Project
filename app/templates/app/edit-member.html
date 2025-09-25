@@ -1,0 +1,246 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Edit Member Details</h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">
+                  Edit Member Details
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="container mt-0">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title"> <a href="show-all-member.html" class="btn btn-sm" id="backToMembersBtn">
+                <i class="fa fa-arrow-left me-1" style="margin: -15px"></i></a>Edit Member Details</h4>
+          </div>
+
+<div class="card-body">
+  <form id="editMemberForm" action="{% url 'update-member' member.id %}" method="POST"
+        enctype="multipart/form-data" class="custom-validation" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="memberIdToEdit" value="{{ member.id }}" />
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" id="firstName" name="first_name" class="form-control"
+               value="{{ member.first_name }}" required minlength="2"
+               placeholder="Enter First Name"  />
+        <div class="invalid-feedback">Please enter a first name (at least 2 characters).</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" id="lastName" name="last_name" class="form-control"
+               value="{{ member.last_name }}" required minlength="2"
+               placeholder="Enter Last Name"  />
+        <div class="invalid-feedback">Please enter a last name (at least 2 characters).</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="emailAddress" class="form-label">Email Address</label>
+        <input type="email" id="emailAddress" name="email" class="form-control"
+               value="{{ member.email }}" required placeholder="Enter Email Address" readonly />
+        <div class="invalid-feedback">Please enter a valid email address.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="contact" class="form-label">Contact</label>
+        <input type="tel" id="contact" name="contact" class="form-control"
+               value="{{ member.contact }}" required pattern="[0-9]{10}"
+               placeholder="Enter Contact No. (10 digits)"
+               title="Please enter a 10-digit number"
+               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" />
+        <div class="invalid-feedback">Please enter a 10-digit contact number.</div>
+      </div>
+
+      <!-- GENDER FIELD (readonly + hidden input for submission) -->
+      <div class="col-md-4 mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <select id="gender" class="form-select" disabled>
+          <option value="">Select your gender</option>
+          <option value="Male" {% if member.gender == "Male" %}selected{% endif %}>Male</option>
+          <option value="Female" {% if member.gender == "Female" %}selected{% endif %}>Female</option>
+          <option value="Other" {% if member.gender == "Other" %}selected{% endif %}>Other</option>
+        </select>
+        <input type="hidden" name="gender" value="{{ member.gender }}">
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="dob" class="form-label">Date of Birth</label>
+        <input type="date" id="dob" name="dob" value="{{ member.dob|date:'Y-m-d' }}"
+               class="form-control" required readonly />
+        <div class="invalid-feedback">Please select your date of birth.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="address" class="form-label">Address</label>
+        <input type="text" id="address" name="address" value="{{ member.address }}"
+               class="form-control" required placeholder="Enter your address" />
+        <div class="invalid-feedback">Please enter your address.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="city" class="form-label">City</label>
+        <input type="text" id="city" name="city" value="{{ member.city }}"
+               class="form-control" required placeholder="Enter City Name" />
+        <div class="invalid-feedback">Please enter your city.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="pincode" class="form-label">Pincode</label>
+        <input type="text" id="pincode" name="pincode" value="{{ member.pincode }}"
+               class="form-control" required pattern="[0-9]{6}"
+               placeholder="Enter Pincode (6 digits)" title="Please enter a 6-digit number" maxlength="6" />
+        <div class="invalid-feedback">Please enter a 6-digit pincode.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+    <label for="photo" class="form-label">Photo</label>
+    <input type="file" id="photo" name="photo" class="form-control" accept=".jpg, .jpeg, .png" />
+
+    {% if member.photo %}
+        <!-- यहाँ सिर्फ filename दिखा रहे हैं -->
+        <small class="text-muted">Current file: {{ member.photo.name|slice:"-30:" }}</small>
+    {% endif %}
+
+    <div class="invalid-feedback">Please upload a valid photo.</div>
+</div>
+
+
+      <div class="col-md-4 mb-3">
+        <label for="membership_type" class="form-label">Membership Type</label>
+        <select id="membership_type" name="membership_type" class="form-select" required>
+          <option value="">Select Membership Type</option>
+          <option value="1 Month" {% if member.membership_type == "1 Month" %}selected{% endif %}>1 Month</option>
+          <option value="2 Months" {% if member.membership_type == "2 Months" %}selected{% endif %}>2 Months</option>
+          <option value="3 Months" {% if member.membership_type == "3 Months" %}selected{% endif %}>3 Months</option>
+          <option value="6 Months" {% if member.membership_type == "6 Months" %}selected{% endif %}>6 Months</option>
+          <option value="9 Months" {% if member.membership_type == "9 Months" %}selected{% endif %}>9 Months</option>
+          <option value="1 Year" {% if member.membership_type == "1 Year" %}selected{% endif %}>1 Year</option>
+        </select>
+        <div class="invalid-feedback">Please select a membership type.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="paidAmount" class="form-label">Paid Amount</label>
+        <input type="number" id="paidAmount" name="amount_paid" value="{{ member.amount_paid }}"
+               class="form-control" placeholder="Enter Paid Amount" />
+        <div class="invalid-feedback">Please enter the paid amount.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="dueAmount" class="form-label">Due Amount</label>
+        <input type="number" id="dueAmount" name="due_amount" value="{{ member.due_amount }}"
+               class="form-control" placeholder="Enter Due Amount" required />
+        <div class="invalid-feedback">Please enter the due amount.</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="joiningDate" class="form-label">Joining Date</label>
+        <input type="date" id="joiningDate" name="joining_date"
+               value="{{ member.joining_date|date:'Y-m-d' }}" class="form-control" readonly />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="expiryDate" class="form-label">Expiry Date</label>
+        <input type="date" id="expiryDate" name="expiry_date"
+               value="{{ member.expiry_date|date:'Y-m-d' }}" class="form-control" readonly />
+      </div>
+    </div>
+
+    <div class="mb-0 text-end">
+      <button type="submit" class="btn btn-primary">Update Details</button>
+      <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-center border-0 pb-0">
+        <div class="text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
+            class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+          </svg>
+        </div>
+      </div>
+      <div class="modal-body text-center">
+        <h5 class="modal-title" id="successModalLabel">Success</h5>
+        <p>Member data updated successfully!</p>
+      </div>
+      <div class="modal-footer d-flex justify-content-center border-0 pt-0">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-center border-0 pb-0">
+        <div class="text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#dc3545" class="bi bi-exclamation-circle"
+            viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+              d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.5.5 0 0 1-1 .094l-.35-3.507z" />
+          </svg>
+        </div>
+      </div>
+      <div class="modal-body text-center">
+        <h5 class="modal-title" id="errorModalLabel">Error</h5>
+        <p id="errorMessageText">
+          Please fill in all required fields correctly.
+        </p>
+      </div>
+      <div class="modal-footer d-flex justify-content-center border-0 pt-0">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end main content-->
+
+
+{% endblock %}

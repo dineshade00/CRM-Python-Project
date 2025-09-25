@@ -1,0 +1,357 @@
+{% extends 'app/base1.html' %}
+{% block content %}
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- Page Title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">PAYMENT HISTORY</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active">All Payment History</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs my-4" id="historyTabs">
+                <li class="nav-item">
+                    <button class="nav-link active" onclick="showHistory('staffHistory')">Staff Salary History</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" onclick="showHistory('memberHistory')">Member Payment History</button>
+                </li>
+            </ul>
+
+            <!-- Staff Salary History -->
+            <div id="staffHistory">
+                <div class="card">
+                    <div class="card-header card-header-bordered">
+                        <h4 class="card-title mb-0">STAFF SALARY PAYMENT HISTORY</h4>
+                </div>
+                <div class="card-body table-responsive">
+
+                    <!-- Top Controls -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>
+                            Show 
+                            <select id="staffEntries" class="form-select d-inline-block w-auto">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select> entries
+                        </div>
+                        <div>
+                            <input type="text" id="staffSearch" class="form-control" placeholder="Search...">
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped" id="staffTable">
+                        <thead style="background-color: #38c66c;">
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Staff ID</th>
+                                <th>Job Role</th>
+                                <th>Account Number</th>
+                                <th>Bank</th>
+                                <th>Salary Amount</th>
+                                <th>Salary Date</th>
+                                <th>Payment Mode</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for invoice in staff_invoices %}
+                            <tr>
+                                <td>{{ invoice.staff_name }}</td>
+                                <td>{{ invoice.staff_id }}</td>
+                                <td>{{ invoice.job_role }}</td>
+                                <td>{{ invoice.account_number }}</td>
+                                <td>{{ invoice.bank_name }}</td>
+                                <td>{{ invoice.salary_amount }}</td>
+                                <td>{{ invoice.salary_date }}</td>
+                                <td>{{ invoice.payment_mode }}</td>
+                                <td>{{ invoice.created_at }}</td>
+                                <td>
+                                    <a href="" class="btn btn-sm btn-primary" onclick="printRow(this)" target="_blank">Print</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="10" class="text-center">No Staff Invoices Found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div id="staffInfo">Showing 1 to 10 entries</div>
+                        <ul class="pagination mb-0" id="staffPagination"></ul>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <button id="printStaffBtn" class="btn btn-outline-primary no-print" onclick="printSection('staffHistory')">
+                            🖨️ Print All Staff History
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Member Payment History -->
+        <div id="memberHistory" style="display: none;">
+            <div class="card">
+                <div class="card-header card-header-bordered">
+                    <h4 class="card-title mb-0">MEMBER BILL PAYMENT HISTORY</h4>
+                </div>
+                <div class="card-body table-responsive">
+
+                    <!-- Top Controls -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>
+                            Show 
+                            <select id="memberEntries" class="form-select d-inline-block w-auto">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select> entries
+                        </div>
+                        <div>
+                            <input type="text" id="memberSearch" class="form-control" placeholder="Search...">
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped" id="memberTable">
+                        <thead>
+                            <tr>
+                                <th>Member Name</th>
+                                <th>Member ID</th>
+                                <th>Membership Type</th>
+                                <th>Amount</th>
+                                <th>Billing Date</th>
+                                <th>Created At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for invoice in member_invoices %}
+                            <tr>
+                                <td>{{ invoice.member_name }}</td>
+                                <td>{{ invoice.member_id }}</td>
+                                <td>{{ invoice.membership_type }}</td>
+                                <td>{{ invoice.amount }}</td>
+                                <td>{{ invoice.billing_date }}</td>
+                                <td>{{ invoice.created_at }}</td>
+                                <td>
+                                    <a href="" class="btn btn-sm btn-primary" onclick="printRow(this)" target="_blank">Print</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">No Member Invoices Found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div id="memberInfo">Showing 1 to 10 entries</div>
+                        <ul class="pagination mb-0" id="memberPagination"></ul>
+                    </div>
+
+                    <div class="text-end mt-3">
+                        <button class="btn btn-outline-primary no-print" onclick="printSection('memberHistory')">
+                            🖨️ Print All Member History
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS for Search + Pagination + Entries -->
+<script>
+function setupTable(tableId, searchId, entriesId, paginationId, infoId) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    const search = document.getElementById(searchId);
+    const entriesSelect = document.getElementById(entriesId);
+    const pagination = document.getElementById(paginationId);
+    const info = document.getElementById(infoId);
+
+    let currentPage = 1;
+    let rowsPerPage = parseInt(entriesSelect.value);
+    let filteredRows = rows;
+
+    function renderTable() {
+        tbody.innerHTML = "";
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedRows = filteredRows.slice(start, end);
+
+        paginatedRows.forEach(r => tbody.appendChild(r));
+
+        info.textContent = `Showing ${start + 1} to ${Math.min(end, filteredRows.length)} of ${filteredRows.length} entries`;
+
+        // pagination buttons
+        pagination.innerHTML = "";
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+        const createPageItem = (label, page, disabled=false, active=false) => {
+            const li = document.createElement("li");
+            li.className = `page-item ${disabled ? "disabled": ""} ${active ? "active": ""}`;
+            const a = document.createElement("a");
+            a.className = "page-link border border-success";
+            a.href = "#";
+            a.textContent = label;
+            a.onclick = (e) => {
+                e.preventDefault();
+                if (!disabled) {
+                    currentPage = page;
+                    renderTable();
+                }
+            };
+            li.appendChild(a);
+            return li;
+        };
+
+        pagination.appendChild(createPageItem("«", currentPage - 1, currentPage === 1));
+        for (let i=1; i<=totalPages; i++) {
+            pagination.appendChild(createPageItem(i, i, false, i===currentPage));
+        }
+        pagination.appendChild(createPageItem("»", currentPage + 1, currentPage === totalPages));
+    }
+
+    function filterTable() {
+        const query = search.value.toLowerCase();
+        filteredRows = rows.filter(row => row.innerText.toLowerCase().includes(query));
+        currentPage = 1;
+        renderTable();
+    }
+
+    search.addEventListener("input", filterTable);
+    entriesSelect.addEventListener("change", () => {
+        rowsPerPage = parseInt(entriesSelect.value);
+        currentPage = 1;
+        renderTable();
+    });
+
+    renderTable();
+}
+
+// initialize both tables
+setupTable("staffTable", "staffSearch", "staffEntries", "staffPagination", "staffInfo");
+setupTable("memberTable", "memberSearch", "memberEntries", "memberPagination", "memberInfo");
+
+function showHistory(id) {
+    document.getElementById("staffHistory").style.display = (id === "staffHistory") ? "block" : "none";
+    document.getElementById("memberHistory").style.display = (id === "memberHistory") ? "block" : "none";
+}
+</script>
+<script>
+function printRow(button) {
+    let row = button.closest("tr");
+    let cols = row.querySelectorAll("td");
+    let headers = button.closest("table").querySelectorAll("thead th");
+
+    // check table type (Staff ya Member)
+    let isStaff = headers[0].innerText.toLowerCase().includes("staff");
+
+    let printContent = `
+        <html>
+        <head>
+            <title>${isStaff ? "Staff Salary Slip" : "Member Payment Receipt"}</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .header { text-align: center; border-bottom: 2px solid #38c66c; padding-bottom: 10px; margin-bottom: 20px; }
+                .header h1 { margin: 0; color: #38c66c; }
+                .info-section { margin-bottom: 20px; }
+                .info-section h3 { background: #f4f4f4; padding: 8px; margin: 0 0 10px 0; border-left: 5px solid #38c66c; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { text-align: left; padding: 10px; border-bottom: 1px solid #ddd; }
+                th { width: 30%; background: #f9f9f9; }
+                .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #555; }
+
+                /* Hide everything except body in print */
+                @media print {
+                    body * { visibility: hidden; }
+                    body, body * { visibility: visible; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>Clivax Gym</h1>
+                <p>${isStaff ? "Staff Salary Payment Record" : "Member Payment Record"}</p>
+            </div>
+    `;
+
+    if (isStaff) {
+        printContent += `
+            <div class="info-section">
+                <h3>Staff Salary Details</h3>
+                <table>
+                    <tr><th>${headers[0].innerText}</th><td>${cols[0].innerText}</td></tr>
+                    <tr><th>${headers[1].innerText}</th><td>${cols[1].innerText}</td></tr>
+                    <tr><th>${headers[2].innerText}</th><td>${cols[2].innerText}</td></tr>
+                    <tr><th>${headers[3].innerText}</th><td>${cols[3].innerText}</td></tr>
+                    <tr><th>${headers[4].innerText}</th><td>${cols[4].innerText}</td></tr>
+                    <tr><th>${headers[5].innerText}</th><td>${cols[5].innerText}</td></tr>
+                    <tr><th>${headers[6].innerText}</th><td>${cols[6].innerText}</td></tr>
+                    <tr><th>${headers[7].innerText}</th><td>${cols[7].innerText}</td></tr>
+                    <tr><th>${headers[8].innerText}</th><td>${cols[8].innerText}</td></tr>
+                </table>
+            </div>
+        `;
+    } else {
+        printContent += `
+            <div class="info-section">
+                <h3>Member Payment Details</h3>
+                <table>
+                    <tr><th>${headers[0].innerText}</th><td>${cols[0].innerText}</td></tr>
+                    <tr><th>${headers[1].innerText}</th><td>${cols[1].innerText}</td></tr>
+                    <tr><th>${headers[2].innerText}</th><td>${cols[2].innerText}</td></tr>
+                    <tr><th>${headers[3].innerText}</th><td>${cols[3].innerText}</td></tr>
+                    <tr><th>${headers[4].innerText}</th><td>${cols[4].innerText}</td></tr>
+                    <tr><th>${headers[5].innerText}</th><td>${cols[5].innerText}</td></tr>
+                </table>
+            </div>
+        `;
+    }
+
+    printContent += `
+            <div class="footer">
+                <p>Generated by Clivax Gym System</p>
+                <p>Thank you for being with us 💪</p>
+            </div>
+        </body>
+        </html>
+    `;
+
+    let win = window.open("", "_blank");
+    win.document.write(printContent);
+    win.document.close();
+
+    // Thoda delay de print ko (background na aaye)
+    win.onload = function () {
+        win.focus();
+        win.print();
+        win.close();
+    };
+}
+</script>
+
+
+
+{% endblock %}

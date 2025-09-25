@@ -1,0 +1,368 @@
+{% extends 'app/base1.html' %} {% load static %} {% block content %}
+
+<!-- Start right Content here -->
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-flex align-items-center justify-content-between"
+          >
+            <h4 class="mb-sm-0">Live Sessions</h4>
+
+            {% if messages %}
+            <div class="alert alert-success mt-2">
+              {% for message in messages %} {{ message }} {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Live Sessions</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+<div class="row">
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">📅 Today’s Sessions</h4>
+      </div>
+      <div class="card-body">
+        {% with todays_sessions=sessions|dictsort:"obj.session_datetime" %}
+          {% if todays_sessions %}
+            <div class="row">
+              {% for session in todays_sessions %}
+                {% if session.status_label == "Today" or session.status_label == "Ongoing" %}
+                  <div class="col-md-4 mb-4">
+                    <!-- 3 columns -->
+                    <div class="card border-primary h-100 text-center p-3">
+                      <h5 class="card-title text-primary fw-bold">
+                        {{ session.obj.session_title }}
+                      </h5>
+                      <p class="card-text text-muted small">
+                        <strong>Trainer:</strong> {{ session.obj.trainer_name }}<br />
+                        <strong>Time:</strong> {{ session.obj.session_datetime|date:"d M Y, h:i A" }}<br />
+                        <strong>Duration:</strong> {{ session.obj.duration }} mins<br />
+                        <strong>Participants:</strong> {{ session.obj.participants }}
+                      </p>
+
+                      <!-- WhatsApp Share Icon -->
+                      <a href="https://wa.me/?text=Join%20this%20session:%20{{ session.obj.session_link }}" target="_blank" class="text-success fs-3">
+                        <i class="fab fa-whatsapp"></i>
+                      </a>
+
+                      <div class="card-footer bg-light fw-bold text-success">
+                        {{ session.status_label }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="text-center py-5">
+              <h3 class="fw-bold text-danger">
+                🚫 No Sessions Scheduled Today
+              </h3>
+            </div>
+          {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <!-- end row -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Add New Online Session</h4>
+            </div>
+
+            <div class="card-body">
+              <form class="needs-validation" novalidate method="POST">
+                {% csrf_token %}
+                <!-- Row 1: Session Title | Trainer Name -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="sessionTitle" class="form-label"
+                        >Session Title</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="sessionTitle"
+                        name="sessionTitle"
+                        placeholder="e.g. Strength Training"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">
+                        Please enter the session title.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="trainerName" class="form-label"
+                        >Trainer Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="trainerName"
+                        name="trainerName"
+                        placeholder="e.g. John Doe"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">
+                        Trainer name is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Row 2: Date & Time | Duration -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="sessionDateTime" class="form-label"
+                        >Date &amp; Time</label
+                      >
+                      <input
+                        type="datetime-local"
+                        class="form-control"
+                        id="sessionDateTime"
+                        name="sessionDateTime"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">
+                        Please provide a valid date and time.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="duration" class="form-label"
+                        >Duration (minutes)</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="duration"
+                        name="duration"
+                        placeholder="e.g. 60"
+                        min="1"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">
+                        Please provide the session duration.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Row 3: Participants | Session Link -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="participants" class="form-label"
+                        >Participants</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="participants"
+                        name="participants"
+                        placeholder="e.g. 20"
+                        min="1"
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">
+                        Please enter a valid number of participants.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="sessionLink" class="form-label"
+                        >Session Link</label
+                      >
+                      <input
+                        type="url"
+                        class="form-control"
+                        id="sessionLink"
+                        name="sessionLink"
+                        placeholder="https://zoom.us/..."
+                        required
+                      />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">
+                        Please provide a valid URL.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Row 4: Note (optional) -->
+                <div class="row">
+                  <div class="col-12">
+                    <div class="mb-3">
+                      <label for="note" class="form-label"
+                        >Note <span class="text-muted">(optional)</span></label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="note"
+                        name="note"
+                        rows="3"
+                        placeholder="Add any Note or Instructions"
+                      ></textarea>
+                      <!-- No validation required; field is optional -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-end">
+                  <button class="btn btn-primary" type="submit">
+                    Create Session
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- session data-table starts here -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Online Sessions</h4>
+              <table
+                id="sessions-table"
+                class="table table-hover table-striped dt-responsive nowrap w-100"
+              >
+                <thead>
+                  <tr>
+                    <th>Session Title</th>
+                    <th>Trainer</th>
+                    <th>Date & Time</th>
+                    <th>Duration</th>
+                    <th>Participants</th>
+                    <th>Joining Link</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for s in sessions %}
+                  <tr>
+                    <td>{{ s.obj.session_title }}</td>
+                    <td>{{ s.obj.trainer_name }}</td>
+                    <td>{{ s.obj.session_datetime|date:"Y-m-d H:i" }}</td>
+                    <td>{{ s.obj.duration }} min</td>
+                    <td>{{ s.obj.participants }}</td>
+                    <td>
+                      <a
+                        href="{% url 'meeting-room' s.obj.id %}"
+                        class="btn btn-sm btn-success"
+                      >
+                        Start Meeting
+                      </a>
+                    </td>
+                    <td>
+                      <span class="badge bg-{{ s.status_class }}"
+                        >{{ s.status_label }}</span
+                      >
+                    </td>
+                    <td>
+                      <a
+                        href="{% url 'edit-session' s.obj.id %}"
+                        class="btn btn-sm btn-primary"
+                        >Edit</a
+                      >
+                      <a
+                        href="{% url 'delete-session' s.obj.id %}"
+                        class="btn btn-sm btn-danger"
+                        >Delete</a
+                      >
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="8" class="text-center text-muted">
+                      No sessions available
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- end card body-->
+          </div>
+          <!-- end card -->
+        </div>
+        <!-- end col-->
+      </div>
+    </div>
+    <!-- end container-fluid -->
+  </div>
+  <!-- End Page-content -->
+</div>
+<!-- end main content-->
+
+<!-- SweetAlert2 (for pretty success modal) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="{% static 'assets/js/live-session.js' %}"></script>
+
+<!-- jQuery + DataTables JS/CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
+/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#alternative-page-datatable").DataTable({
+      paging: true, // pagination enable
+      lengthMenu: [5, 10, 25, 50, 100], // show entries dropdown
+      pageLength: 5, // default entries
+      ordering: true, // enable sorting
+      info: true, // show "Showing X of Y entries"
+      language: {
+        lengthMenu: "Show _MENU_ entries",
+      },
+      dom: '<"top"l>rt<"bottom"ip><"clear">',
+      // l = length (show entries), i = info, p = pagination
+    });
+  });
+</script>
+
+{% endblock %}

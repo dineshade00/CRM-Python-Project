@@ -1,0 +1,274 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Member Details</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'home'%}">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active">Total Members</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- Header -->
+                        <div class="card-header d-flex align-items-center">
+                            <a href="{% url 'show-all-member' %}" class="me-2 text-decoration-none">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+                            <h5 class="card-title mb-0">Member Profile</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card shadow-sm h-100">
+
+
+                                    <div class="card-body">
+                                        <div class="row g-4 align-items-stretch">
+
+                                            <!-- Column 1 -->
+                                            <div class="col-12 col-md-6 col-lg-4 d-flex flex-column h-100">
+                                                <div>
+                                                    <p><strong>Membership Number:</strong>
+                                                        #CA-{{ member.id|stringformat:"04d" }}</p>
+
+                                                    <p><strong>Full Name:</strong>
+                                                        {{ member.first_name }} {{ member.last_name }}</p>
+
+                                                    <p><strong>Date of Birth:</strong> {{ member.dob }}</p>
+                                                    <p><strong>Gender:</strong> {{ member.gender }}</p>
+                                                    <p><strong>Contact Number:</strong> {{ member.contact }}</p>
+                                                    <p><strong>Email:</strong> {{ member.email }}</p>
+                                                    <p><strong>Address:</strong> {{ member.address }}, {{ member.city }}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Column 2 -->
+                                            <div class="col-12 col-md-6 col-lg-4 d-flex flex-column h-100">
+                                                <div>
+                                                    <p><strong>Pincode:</strong> {{ member.pincode }}</p>
+                                                    <p><strong>Membership Type:</strong> {{ member.membership_type }}
+                                                    </p>
+                                                    <p><strong>Status:</strong>
+                                                        {% if member.status == "Active" %}
+                                                        <span class="badge bg-success">Active</span>
+                                                        {% elif member.status == "Expired" %}
+                                                        <span class="badge bg-danger">Expired</span>
+                                                        {% else %}
+                                                        <span class="badge bg-warning text-dark">Expiring Soon</span>
+                                                        {% endif %}
+                                                    </p>
+                                                    <p><strong>Amount Paid:</strong> ₹{{ member.amount_paid }}</p>
+                                                    <p><strong>Due Amount:</strong> ₹{{ member.due_amount }}</p>
+                                                    <p><strong>Joining Date:</strong> {{ member.joining_date }}</p>
+                                                    <p><strong>Expiry Date:</strong> {{ member.expiry_date }}</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Column 3 (Photo) -->
+                                            <div class="col-12 col-lg-4 d-flex flex-column h-100 text-center">
+                                                <div
+                                                    class="flex-grow-1 d-flex align-items-center justify-content-center">
+                                                    {% if member.photo %}
+                                                    <img src="{{ member.photo.url }}"
+                                                        class="img-fluid rounded shadow-sm" alt="Member Photo"
+                                                        style="max-height: 250px; object-fit: cover;">
+                                                    {% else %}
+                                                    <img src="{% static 'images/default-profile.png' %}"
+                                                        class="img-fluid rounded shadow-sm" alt="Default Photo"
+                                                        style="max-height: 250px; object-fit: cover;">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <!-- Button -->
+                                            <div class="mt-auto text-end"
+                                                style="margin-left: -100px;padding-top: 40px;">
+                                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#membershipCardModal">
+                                                    <i class="fas fa-id-card"></i> Membership Card
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="membershipCardModal" tabindex="-1" aria-labelledby="membershipCardModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content p-3" style="border-radius: 15px;">
+                        <div class="modal-body">
+
+                            <!-- ID Card Design -->
+                            <div class="card shadow-sm"
+                                style="width: 350px; border-radius: 15px; overflow: hidden; margin: auto;">
+                                <div class="card-body text-center"
+                                    style="background: linear-gradient(135deg, #fddde6, #d4fc79);">
+
+                                    <!-- Gym Name -->
+                                    <h5 class="fw-bold text-success mb-2">CLIVAX GYM</h5>
+
+                                    <!-- Membership Number -->
+                                    <p class="mb-1" style="color: black;">
+                                        <strong>#CA-{{ member.id|default:0|stringformat:"05d" }}</strong>
+                                    </p>
+
+                                    <div class="row">
+                                        <!-- Left Side (Details) -->
+                                        <div class="col-8 text-start">
+                                            <h4 class="fw-bold mb-1" style="color: black;">
+                                                {{ member.first_name|default:"" }} {{ member.last_name|default:"" }}
+                                            </h4>
+                                            <p class="mb-1" style="color: black;"><strong>ADDRESS :</strong>
+                                                {{ member.address|default:"" }}, {{ member.pincode|default:"" }}
+                                            </p>
+                                            <p style="color: black;">
+                                                <strong>MEMBERSHIP:</strong> {{ member.membership_type|default:"N/A" }}
+                                            </p>
+                                            <p style="color: black;">
+                                                <strong>VALID TILL:</strong> {{ member.expiry_date|date:"d M Y" }}
+                                            </p>
+                                        </div>
+
+                                        <!-- Right Side (Photo) -->
+                                        <div class="col-4 text-end">
+                                            {% if member.photo %}
+                                            <img src="{{ member.photo.url }}" class="img-fluid rounded shadow-sm"
+                                                alt="Member Photo" style="max-height: 100px; object-fit: cover;">
+                                            {% else %}
+                                            <img src="{% static 'images/default-profile.png' %}"
+                                                class="img-fluid rounded shadow-sm" alt="Default Photo"
+                                                style="max-height: 100px; object-fit: cover;">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End ID Card -->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" onclick="printCard()">Print</button>
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+</div>
+<!-- end main content-->
+<script>
+    function printCard() {
+        // Modal ke andar ke card ko select karo
+        var cardContent = document.querySelector("#membershipCardModal .card").outerHTML;
+
+        // Naya window open karo
+        var printWindow = window.open('', '', 'width=400,height=600');
+
+        // Print window ke andar card ka HTML + CSS inject karo
+        printWindow.document.write(`
+        <html>
+        <head>
+            <title >Membership Card</title>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    display: flex; 
+                    justify-content: center; 
+                    align-items: center; 
+                    height: 100vh; 
+                    margin: 0; 
+                    background: #f8f9fa;
+                }
+                .card {
+                    width: 350px; 
+                    border-radius: 15px; 
+                    overflow: hidden; 
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+                }
+                .card-body {
+                    background: linear-gradient(135deg, #fddde6, #d4fc79); 
+                    padding: 20px; 
+                    border-radius: 15px;
+                }
+                h5 {
+                    color: #28a745; 
+                    margin-bottom: 8px;
+                    font-size: 18px;
+                    text-align:center;
+                
+                }
+                p {
+                    margin: 2px 0;
+                    color: black;
+                    font-size: 14px;
+                 
+                }
+                .fw-bold { font-weight: bold; }
+                img { 
+                    border-radius: 10px; 
+                    object-fit: cover; 
+                    max-height: 100px; 
+                }
+                .row { display: flex; justify-content: space-between; }
+                .col-8 { width: 65%; text-align: left; }
+                .col-4 { width: 30%; text-align: right; }
+            </style>
+        </head>
+        <body>
+            ${cardContent}
+        </body>
+        </html>
+    `);
+
+        printWindow.document.close();
+        printWindow.focus();
+
+        // Print karo aur window close kar do
+        printWindow.print();
+        printWindow.close();
+    }
+</script>
+
+
+{% endblock %}

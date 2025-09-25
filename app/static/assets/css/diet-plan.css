@@ -1,0 +1,5 @@
+ textarea.form-control,
+        input.form-control,
+        select.form-select {
+            min-height: 40px;
+        }

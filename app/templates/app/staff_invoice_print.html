@@ -1,0 +1,207 @@
+{% extends 'app/base1.html'%}
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Invoice</h4>
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Staff Invoice</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <!-- Staff Invoice Card -->
+      <div class="card">
+        <div class="card-header card-header-bordered">
+          <h3 class="card-title">Clivax Gym</h3>
+        </div>
+        <div class="card-body">
+
+          <!-- Printable Invoice -->
+          <div id="invoicePrint" class="invoice-template p-4">
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <h3><b>Clivax Gym</b></h3>
+                <p>
+                  Address: Nagpur, Maharashtra<br>
+                  Phone: +91 9876543210<br>
+                  Email: info@clivaxgym.com
+                </p>
+              </div>
+              <div class="col-6 text-end">
+                <h2 class="text-danger"><b>INVOICE</b></h2>
+                <p>Invoice No: INV-{{ invoice.id }}<br>
+                  Date: {{ invoice.salary_date }}<br>
+                  Staff ID: {{ invoice.staff_id }}</p>
+              </div>
+            </div>
+
+            <hr>
+
+            <!-- Staff Info in 3 columns -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <p><b>Staff Name:</b> {{ invoice.staff_name }}</p>
+                <p><b>Job Role:</b> {{ invoice.job_role }}</p>
+              </div>
+              <div class="col-md-4">
+                <p><b>Account Number:</b> {{ invoice.account_number }}</p>
+                <p><b>Bank Name:</b> {{ invoice.bank_name }}</p>
+              </div>
+              <div class="col-md-4">
+                <p><b>Salary Amount:</b> ₹{{ invoice.salary_amount }}</p>
+                <p><b>Payment Mode:</b> {{ invoice.payment_mode }}</p>
+              </div>
+            </div>
+
+            <!-- Table Format like Image -->
+            <table class="table table-bordered text-center">
+              <thead class="table-danger">
+                <tr>
+                  <th>No</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>01</td>
+                  <td>Salary Payment</td>
+                  <td>₹{{ invoice.salary_amount }}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="2" class="text-end">Total</th>
+                  <th>₹{{ invoice.salary_amount }}</th>
+                </tr>
+              </tfoot>
+            </table>
+
+            <div class="row mt-4">
+              <div class="col-6">
+                <p><b>Terms & Conditions:</b><br>
+                  Salary is processed as per company norms.<br>
+                  This is a computer-generated invoice.</p>
+              </div>
+
+              <div class="signature-box text-end mt-5">
+                <img src="{% static 'assets/images/signature.png' %}" alt="Signature" height="65px" width="200px"
+                  class="signature-img"><br>
+                <span style="padding-left: 80px;">Founder Signature</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-center mt-3 ">
+            <button class="btn btn-primary" onclick="printInvoic()">🖨 Print Invoice</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Invoice Template Styling */
+  .invoice-template {
+    background: #fff;
+    border: 2px solid #d32f2f;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+  }
+
+  .invoice-template h3,
+  .invoice-template h2 {
+    margin: 0;
+  }
+
+  .table th,
+  .table td {
+    vertical-align: middle;
+  }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+
+    #invoicePrint,
+    #invoicePrint * {
+      visibility: visible;
+    }
+
+    #invoicePrint {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  function printInvoic() {
+    const printContent = document.getElementById("invoicePrint").innerHTML;
+
+    // Print window open
+    const printWindow = window.open("", "", "width=900,height=650");
+
+    printWindow.document.write(`
+    <html>
+      <head>
+        <title>Invoice</title>
+
+        <!-- ✅ Bootstrap CSS load kare -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+        <!-- ✅ Apna custom CSS add kare -->
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; }
+          .invoice-template { 
+            border:2px solid #d32f2f; 
+            border-radius:10px; 
+            padding:20px; 
+            box-shadow:0 4px 12px rgba(0,0,0,0.2);
+          }
+          .table { width:100%; border-collapse: collapse; }
+          .table th, .table td { border:1px solid #333; padding:8px; text-align:center; }
+          .table thead { background:#f8d7da; }
+          h2,h3 { margin:0; }
+        </style>
+      </head>
+      <body>
+        ${printContent}
+      </body>
+    </html>
+  `);
+
+    printWindow.document.close();
+
+    // Ensure styles load before print
+    printWindow.onload = function () {
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+    };
+  }
+</script>
+
+
+{% endblock %}

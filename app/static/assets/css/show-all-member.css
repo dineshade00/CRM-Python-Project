@@ -1,0 +1,80 @@
+
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .btn.btn-sm.btn-secondary {
+          display: none !important;
+        }
+      }
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #cardContentToPrint,
+        #cardContentToPrint * {
+          visibility: visible;
+        }
+        #cardContentToPrint {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+        }
+      }
+      .card-for-print {
+        width: 320px;
+        height: 190px;
+        overflow: hidden;
+      }
+
+      @media (max-width: 768px) {
+        .card-for-print {
+          width: 320px;
+          height: 190px;
+        }
+      }
+
+           @media (max-width: 768px) {
+        .modal-body.text-center {
+          display: flex;
+          justify-content: center; /* Centers items horizontally */
+          align-items: center; /* Centers items vertically if needed */
+          flex-direction: column; /* Assuming you want children stacked vertically */
+        }
+      }
+  /* Using margin: auto when the parent is a flex container and the child has a width */
+      @media (min-width: 992px) {
+        /* Adjust 992px if your desktop breakpoint is different */
+        .modal-body.text-center {
+          margin-left: auto;
+          margin-right: auto;
+          /* Keep your existing width, e.g., width: 460px; */
+        }
+      }
+
+        /* Basic styling for the Print Button */
+      BUTTON.btn.btn-sm.btn-secondary {
+        background-color: #54c058; /* Example: Blue background */
+        font-weight: bold;
+        font-family: "Times New Roman", Times, serif;
+        color: white; /* Example: White text color */
+        padding: 5px 10px; /* Example: Add padding */
+        border: none; /* Example: Remove default border */
+        border-radius: 5px; /* Example: Rounded corners */
+        font-size: 14px; /* Example: Adjust font size */
+        cursor: pointer; /* Indicate it's clickable */
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+      }
+
+      /* Hover effect for the Print Button */
+      BUTTON.btn.btn-sm.btn-secondary:hover {
+        background-color: #18b21d; /* Example: Darker blue on hover */
+      }
+
+      #profileMembershipCardBtn {
+        font-weight: bold;
+        font-family: "Times New Roman", Times, serif;
+      }

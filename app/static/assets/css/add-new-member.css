@@ -1,0 +1,32 @@
+
+        .card {
+            margin-bottom: 20px;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .modal-header .text-center {
+            width: 100%;
+        }
+        .modal-header svg {
+            margin-bottom: 10px;
+        }
+
+
+          .card {
+        margin-bottom: 20px;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      }
+
+      .modal-header .text-center {
+        width: 100%;
+      }
+
+      .modal-header svg {
+        margin-bottom: 10px;
+      }
+
+      .waves-effect {
+        font-weight: bold;
+      }
+    

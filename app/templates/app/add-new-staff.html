@@ -1,0 +1,154 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"></h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">
+                  Add New Staff
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="container mt-0">
+        <div class="card">
+         
+
+
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Add New Staff Member</h4>
+          </div>
+          <!-- Success & Error Messages -->
+          {% if messages %}
+          <div id="msg-box">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+          </div>
+          <script>
+            setTimeout(function () {
+              document.getElementById("msg-box").style.display = "none";
+            }, 8000);
+          </script>
+          {% endif %}
+
+          <div class="card-body">
+            <form action="{% url 'add-new-staff' %}" class="custom-validation" method="POST"
+              enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label>First Name</label>
+                  <input type="text" class="form-control" name="first_name" placeholder="Enter First Name" minlength="2"
+                    required />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Last Name</label>
+                  <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" minlength="2"
+                    required />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Email Address</label>
+                  <input type="email" class="form-control" name="email" placeholder="Enter Email Address" required />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Contact</label>
+                  <input type="text" class="form-control" name="contact" placeholder="Enter Contact No."
+                    pattern="[0-9]{10}" maxlength="10" required title="Enter exactly 10 digits" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Gender</label>
+                  <select class="form-select" name="gender" required>
+                    <option value="">Select Your Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Joining Date</label>
+                  <input type="date" class="form-control" name="joining_date" required />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Job Post</label>
+                  <select class="form-select" name="job_post" required>
+                    <option value="">Select Your Role</option>
+                    <option>Trainer</option>
+                    <option>Receptionist</option>
+                    <option>Manager</option>
+                    <option>Office Boy</option>
+                    <option>Security</option>
+                    <option>Nutritionist</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Photo</label>
+                  <input type="file" class="form-control" name="photo" accept=".jpg,.jpeg,.png" required />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Aadhar No.</label>
+                  <input type="text" class="form-control" name="aadhar_number" placeholder="Enter Aadhar No."
+                    pattern="[0-9]{12}" maxlength="12" required title="Enter 12 digit Aadhar number" />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label>Pincode</label>
+                  <input type="text" class="form-control" name="pincode" placeholder="Enter Pincode" pattern="[0-9]{6}"
+                    maxlength="6" required title="Enter 6 digit Pincode" />
+                </div>
+              </div>
+
+              <div class="mb-0 text-end">
+                <button type="submit" class="btn btn-primary">Add New</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- end main content-->
+
+
+{% endblock %}

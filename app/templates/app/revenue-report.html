@@ -1,0 +1,283 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block content %}
+
+
+    <style>
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+
+        #reportTableContainer,
+        #reportTableContainer * {
+          visibility: visible;
+        }
+
+        #reportTableContainer {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+        }
+
+        .print-btn {
+          display: none !important;
+        }
+      }
+    </style>
+ 
+
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div
+                  class="page-title-box d-flex align-items-center justify-content-between"
+                >
+                  <h4 class="mb-sm-0">Revenue Report</h4>
+
+                  <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                      <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                      </li>
+                      <li class="breadcrumb-item active">Revenue Report</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end row -->
+
+            <!-- Date Picker -->
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <i class="fas fa-rupee-sign fs-14 text-muted"></i>
+                </div>
+                <h4 class="card-title mb-0">Overall Revenue</h4>
+              </div>
+              <div class="card-body">
+               <div class="row">
+  <!-- Total Revenue -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">Total Revenue</p>
+        <h5 class="mb-0 fw-bold fs-4" >
+          {{ total_revenue|floatformat:2 }}
+        </h5>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+           style="width: 56px; height: 56px">
+        <i class="mdi mdi-currency-usd text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monthly Recurring Revenue -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">Monthly Recurring Revenue</p>
+        <h5 class="mb-0 fw-bold fs-4">
+           {{ monthly_recurring_revenue|default:"0.00"|floatformat:2 }}
+        </h5>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+           style="width: 56px; height: 56px">
+        <i class="mdi mdi-trending-up text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Members -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">New Members</p>
+        <h5 class="mb-0 fw-bold fs-4" >
+            {{ new_members_count|default:"0" }}
+        </h5>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+           style="width: 56px; height: 56px">
+        <i class="mdi mdi-account-multiple text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARPU -->
+  <div class="col-sm-4 col-lg-6 mb-3">
+    <div class="d-flex justify-content-between align-content-end shadow-lg p-3">
+      <div>
+        <p class="text-muted text-truncate mb-2">Average Revenue Per User</p>
+        <h5 class="mb-0 fw-bold fs-4">
+ 
+  {{ arpu|default:"0.00"|floatformat:2 }}
+        </h5>
+      </div>
+      <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+           style="width: 56px; height: 56px">
+        <i class="mdi mdi-target text-primary fs-4"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                <!-- Date Range Picker + Button Section -->
+                <hr />
+                <div class="row mt-3">
+                  <div class="card-header">
+                    <div class="card-icon">
+                      <i class="fas fa-file-alt fs-14 text-muted"></i>
+                    </div>
+                    <h4 class="card-title mb-0">Generate Detailed Report</h4>
+                  </div>
+
+                  <form method="get" action="{% url 'generate_detailed_report' %}">
+  <div class="row mt-3">
+    <!-- Inputs Row -->
+    <div class="col-md-6 mb-3">
+      <label for="fromDate" class="form-label text-muted fw-semibold">From</label>
+      <input type="date" class="form-control border-primary" id="fromDate" name="from_date" value="{{ from_date }}">
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="toDate" class="form-label text-muted fw-semibold">To</label>
+      <input type="date" class="form-control border-primary" id="toDate" name="to_date" value="{{ to_date }}">
+    </div>
+  </div>
+
+  <!-- Button Row -->
+  <div class="row">
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-primary w-20 shadow-sm fw-semibold">Generate Report</button>
+    </div>
+  </div>
+</form>
+
+
+                </div>
+
+                
+
+                <!-- Report Table Section (Initially Hidden) -->
+                <div id="printable-report" class="mt-4" {% if report_data %}style="display:block"{% else %}style="display:none"{% endif %}>
+  <div class="shadow-sm">
+    <div class="text-end mt-3 mb-3">
+      <button class="btn btn-outline-primary print-btn" onclick="printReport()">
+        <i class="fa fa-print fs-14 text-muted"></i> Print Report
+      </button>
+    </div>
+    <h4 class="card-title">Revenue Report (Total: {{ total_revenue|floatformat:2 }})</h4>
+    <table class="table table-hover table-bordered table-striped dt-responsive nowrap">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Membership Type</th>
+          <th>Total Amount</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if report_data %}
+          {% for member in report_data %}
+            <tr>
+              <td>{{ member.id }}</td>
+              <td>{{ member.first_name }}</td>
+              <td>{{ member.last_name }}</td>
+              <td>{{ member.membership_type }}</td>
+              <td>{{ member.total_amount|floatformat:2 }}</td>
+              <td>{{ member.date|date:"d/m/Y" }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="6" class="text-center">No records found for selected dates</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+
+    <!-- end main content-->
+
+    <script src="{% static 'assets/js/revenue-report.js' %}"></script>
+<script>
+function printReport() {
+    var printContents = document.getElementById('printable-report').innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+}
+</script>
+
+<script>
+function printReport() {
+  // Get the report container
+  const reportContainer = document.getElementById("printable-report");
+
+  if (!reportContainer || reportContainer.style.display === "none") {
+    alert("No data available to print.");
+    return;
+  }
+
+  // Clone the container to avoid messing with original DOM
+  const clone = reportContainer.cloneNode(true);
+
+  // Add CSS styles for print
+  const style = `
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; }
+      h4 { margin-bottom: 15px; }
+      table { width: 100%; border-collapse: collapse; page-break-inside: auto; }
+      thead { display: table-header-group; }
+      tfoot { display: table-footer-group; }
+      th, td { border: 1px solid #666; padding: 6px; font-size: 12px; }
+      th { background-color: #f2f2f2; }
+      tr { page-break-inside: avoid; page-break-after: auto; }
+      .no-print { display: none; }
+    </style>
+  `;
+
+  // Open a new window for print
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write("<html><head><title>Revenue Report</title>");
+  printWindow.document.write(style);
+  printWindow.document.write("</head><body>");
+  printWindow.document.write(clone.outerHTML);
+  printWindow.document.write("</body></html>");
+  printWindow.document.close();
+
+  // Print after window loads
+  printWindow.onload = function () {
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  };
+}
+</script>
+
+{% endblock %}
+ 
+
+
+

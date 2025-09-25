@@ -1,0 +1,87 @@
+{% extends "app/base1.html" %} {% load static %} {% block content %}
+
+<!-- Start right Content here -->
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <div class="container mt-5">
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">🎥 Meeting Room - {{ session.session_title }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <!-- Left Side: Session Info -->
+              <div class="col-md-6">
+                <h5>📌 Session Details</h5>
+                <table class="table table-bordered">
+                  <tr>
+                    <th>Trainer</th>
+                    <td>{{ session.trainer_name }}</td>
+                  </tr>
+                  <tr>
+                    <th>Date & Time</th>
+                    <td>{{ session.session_datetime|date:"Y-m-d H:i" }}</td>
+                  </tr>
+                  <tr>
+                    <th>Duration</th>
+                    <td>{{ session.duration }} minutes</td>
+                  </tr>
+                  <tr>
+                    <th>Participants</th>
+                    <td>{{ session.participants }}</td>
+                  </tr>
+                  <tr>
+                    <th>Note</th>
+                    <td>{{ session.note|default:"-" }}</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Right Side: Meeting Access -->
+              <div class="col-md-6 text-center">
+                <h5>🔗 Meeting Access</h5>
+                {% if session.session_link %}
+                <p>Click below to join the meeting</p>
+                <a
+                  href="{{ session.session_link }}"
+                  target="_blank"
+                  class="btn btn-success btn-lg"
+                >
+                  🚀 Join Meeting
+                </a>
+                {% else %}
+                <p class="text-danger">No meeting link available!</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional Embedded Meeting -->
+        {% if session.session_link %}
+        <div class="mt-4">
+          <h5>Embedded Meeting View:</h5>
+          <iframe
+            src="{{ session.session_link }}"
+            style="
+              width: 100%;
+              height: 600px;
+              border: none;
+              border-radius: 12px;
+            "
+            allow="camera; microphone; fullscreen; display-capture"
+          >
+          </iframe>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <!-- end container-fluid -->
+  </div>
+  <!-- End Page-content -->
+</div>
+<!-- end main content-->
+
+{% endblock %}

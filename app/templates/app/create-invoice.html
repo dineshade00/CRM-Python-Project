@@ -1,0 +1,189 @@
+{% extends 'app/base1.html'%}
+{% block content %}
+<style>
+    form .form-group {
+  display: inline-block;   /* side by side lane ke liye */
+  width: 48%;              /* 2 input ek row me (approx half width) */
+  margin-right: 2%;        /* thoda gap between inputs */
+  vertical-align: top;     /* proper alignment */
+}
+
+form .form-group:nth-child(2n) {
+  margin-right: 0;         /* har 2nd element ke baad gap hatao */
+}
+
+form button {
+  float: right;  \    /* button ko right side le aayega */
+ 
+}
+</style>
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0"> Invoice</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Create Invoice</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <!-- Tab Buttons -->
+            <ul class="nav nav-tabs mb-3" id="invoiceTabs">
+                <li class="nav-item">
+                    <button class="nav-link active" id="staffTab" onclick="showForm('staffForm')">Staff</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="memberTab" onclick="showForm('memberForm')">Member</button>
+                </li>
+            </ul>
+
+            <!-- Staff Form -->
+            <div id="staffForm">
+                <div class="card">
+                    <div class="card-header card-header-bordered">
+                        <h3 class="card-title">STAFF SALARY INVOICE</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <h4>Staff Invoice</h4>
+
+                            <div class="form-group">
+                                <label for="staff_name">Staff Name</label>
+                                <input type="text" name="staff_name" class="form-control" required style="width:500px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="staff_id">Staff ID</label>
+                                <input type="text" name="staff_id" class="form-control" required style="width:500px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="job_role">Job Role</label>
+                                <input type="text" name="job_role" class="form-control" style="width:500px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="account_number">Account Number</label>
+                                <input type="text" name="account_number" class="form-control" required
+                                    style="width:500px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bank_name">Bank Name</label>
+                                <input type="text" name="bank_name" class="form-control" required style="width:500px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="salary_amount">Salary Amount</label>
+                                <input type="number" name="salary_amount" step="0.01" class="form-control" required
+                                    style="width:500px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="salary_date">Salary Date</label>
+                                <input type="date" name="salary_date" class="form-control" required
+                                    style="width:500px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="payment_mode">Payment Mode</label>
+                                <select name="payment_mode" class="form-control" required style="width:500px;">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Cheque">Cheque</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" name="staff_submit" class="btn  mt-2" style="background-color: #38c66c; color: white;">Save Staff
+                                Invoice</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member Form -->
+            <div id="memberForm" style="display: none;">
+                <div class="card">
+                    <div class="card-header card-header-bordered">
+                        <h3 class="card-title">MEMBER BILL INVOICE</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <h4>Member Invoice</h4>
+
+                            <div class="form-group">
+                                <label for="member_name">Member Name</label>
+                                <input type="text" name="member_name" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="member_id">Member ID</label>
+                                <input type="text" name="member_id" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="membership_type">Membership Type</label>
+                                <select name="membership_type" class="form-control" required>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarterly">Quarterly</option>
+                                    <option value="Yearly">Yearly</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input type="number" name="amount" step="0.01" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billing_date">Billing Date</label>
+                                <input type="date" name="billing_date" class="form-control" required>
+                            </div>
+
+                            <button type="submit" name="member_submit" class="btn  mt-3 " style="background-color: #38c66c; color: white;" >Save Member
+                                Invoice</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End Page-content -->
+    </div>
+    <!-- end main content-->
+</div>
+<!-- end layout-wrapper -->
+
+<script>
+    function showForm(formId) {
+        document.getElementById("staffForm").style.display = "none";
+        document.getElementById("memberForm").style.display = "none";
+        document.getElementById(formId).style.display = "block";
+
+        // active tab toggle
+        document.getElementById("staffTab").classList.remove("active");
+        document.getElementById("memberTab").classList.remove("active");
+        if (formId === "staffForm") {
+            document.getElementById("staffTab").classList.add("active");
+        } else {
+            document.getElementById("memberTab").classList.add("active");
+        }
+    }
+</script>
+
+
+{% endblock %}

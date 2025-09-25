@@ -1,0 +1,156 @@
+{% extends 'app/base1.html' %} {% load static %} {% block content %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid py-4">
+      <h4 class="mb-3">Staff Attendance</h4>
+
+      <!-- Card: Attendance Actions -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <!-- Mark Attendance -->
+          <form method="post" class="mb-4">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="mark_attendance" />
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Select Staff Name</label>
+                <select name="staff" class="form-select" required>
+                  <option value="">-- Select Staff --</option>
+                  {% for staff in staffs %}
+                  <option value="{{ staff.id }}">
+                    {{ staff.first_name }} {{ staff.last_name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  value="{{ today|date:'Y-m-d' }}"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button
+                type="submit"
+                name="status"
+                value="present"
+                class="btn btn-primary"
+              >
+                ✔ Present
+              </button>
+              <button
+                type="submit"
+                name="status"
+                value="absent"
+                class="btn btn-danger"
+              >
+                ✘ Absent
+              </button>
+            </div>
+          </form>
+
+          <!-- Generate Report -->
+          <form method="post" class="mb-4">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="generate_report" />
+            <div class="row mb-3">
+              <div class="col-md-6 mb-2">
+                <label class="form-label">From Date</label>
+                <input
+                  type="date"
+                  name="from_date"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label class="form-label">To Date</label>
+                <input
+                  type="date"
+                  name="to_date"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Select Staff</label>
+              <select name="staff" class="form-select" required>
+                <option value="">-- Select Staff --</option>
+                {% for staff in staffs %}
+                <option value="{{ staff.id }}">
+                  {{ staff.first_name }} {{ staff.last_name }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mt-3">
+              <button type="submit" class="btn btn-primary">
+                📑 Generate Report
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Individual Staff Report -->
+      {% if report %}
+      <div class="card shadow-sm mb-4">
+        <div
+          class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+        >
+          <h5 class="mb-0">
+            Attendance Report - {{ selected_staff.first_name }} {{
+            selected_staff.last_name }}
+          </h5>
+        </div>
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <span class="badge bg-success p-2"
+              >✅ Present: {{ present_count }}</span
+            >
+            <span class="badge bg-danger p-2"
+              >❌ Absent: {{ absent_count }}</span
+            >
+          </div>
+          <div
+            class="d-grid"
+            style="
+              grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+              gap: 8px;
+            "
+          >
+            {% for row in staff_table %} {% if row.status == "Present" %}
+            <div
+              class="border rounded p-2 bg-success text-white"
+              title="{{ row.date }}"
+            >
+              ✔
+            </div>
+            {% elif row.status == "Absent" %}
+            <div
+              class="border rounded p-2 bg-danger text-white"
+              title="{{ row.date }}"
+            >
+              ✘
+            </div>
+            {% else %}
+            <div class="border rounded p-2 bg-light" title="{{ row.date }}">
+              -
+            </div>
+            {% endif %} {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

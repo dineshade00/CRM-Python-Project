@@ -1,0 +1,136 @@
+{% load static %}
+{% block content %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>OTP Verification | Clivax </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Codebucks" name="author" />
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+
+    <script src="{% static 'assets/js/pages/layout.js' %}"></script>
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/libs/simplebar/simplebar.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
+
+    <style>
+        .otp-input { width:50px; height:50px; font-size:24px; text-align:center; margin:0 5px; border-radius:8px; border:1px solid #ced4da; }
+        .otp-input:focus { border-color:#0d6efd; box-shadow:0 0 5px rgba(13,110,253,0.5); outline:none; }
+        .otp-container { display:flex; justify-content:center; gap:10px; margin-top:30px; }
+        .resend-link { cursor:pointer; pointer-events:none; opacity:0.6; }
+        .resend-link.active { pointer-events:auto; opacity:1; }
+        #timer { font-weight:bold; margin-left:5px; }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid authentication-bg overflow-hidden">
+        <div class="bg-overlay"></div>
+        <div class="row align-items-center justify-content-center min-vh-100">
+            <div class="col-10 col-md-6 col-lg-4 col-xxl-3">
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div>
+                                <a href="index.html" class="logo-dark">
+                                    <img src="{% static 'assets/images/logo-dark.png' %}" alt="" height="20" class="auth-logo logo-dark mx-auto">
+                                </a>
+                                <a href="index.html" class="logo-light">
+                                    <img src="{% static 'assets/images/logo-light.png' %}" alt="" height="20" class="auth-logo logo-light mx-auto">
+                                </a>
+                            </div>
+                            <h4 class="font-size-18 mt-4">OTP Verification</h4>
+                            <p class="text-muted">Enter the 6-digit code sent to your email</p>
+                        </div>
+
+                        <div class="p-2 mt-4">
+                            {% if message %}
+                                <div class="alert alert-success">{{ message }}</div>
+                            {% endif %}
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endif %}
+                            <form action="" method="POST" class="text-center">
+                                {% csrf_token %}
+                                <div class="otp-container">
+                                    <input type="text" maxlength="1" class="otp-input" name="otp1">
+                                    <input type="text" maxlength="1" class="otp-input" name="otp2">
+                                    <input type="text" maxlength="1" class="otp-input" name="otp3">
+                                    <input type="text" maxlength="1" class="otp-input" name="otp4">
+                                    <input type="text" maxlength="1" class="otp-input" name="otp5">
+                                    <input type="text" maxlength="1" class="otp-input" name="otp6">
+                                </div>
+
+                                <div class="mt-4">
+                                    <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Verify OTP</button>
+                                </div>
+
+                                <div class="mt-3">
+                                    <p class="text-muted">
+                                        Didn't receive code? 
+                                        <button type="submit" name="resend" id="resend" class="btn btn-link resend-link">Resend</button>
+                                        <span id="timer">(30s)</span>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <p>© <script>document.write(new Date().getFullYear())</script> Clivax. Crafted with <i class="mdi mdi-heart text-danger"></i> Kavya Infoweb Pvt Ltd.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'assets/libs/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/libs/metismenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    <script>
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keyup', e => {
+                if (e.key >= 0 && e.key <= 9) {
+                    if(index < inputs.length-1) inputs[index+1].focus();
+                } else if(e.key === 'Backspace') {
+                    if(index > 0 && input.value === '') inputs[index-1].focus();
+                } else { input.value = ''; }
+            });
+        });
+
+        let timeLeft = 30;
+        const timerEl = document.getElementById('timer');
+        const resendEl = document.getElementById('resend');
+
+        const countdown = setInterval(()=>{
+            if(timeLeft>0){ timerEl.textContent=`(${timeLeft}s)`; timeLeft--; }
+            else{ clearInterval(countdown); timerEl.textContent=''; resendEl.classList.add('active'); }
+        },1000);
+
+        resendEl.addEventListener('click', ()=>{
+            if(resendEl.classList.contains('active')){
+                alert('OTP resend request sent!');
+                timeLeft=30; resendEl.classList.remove('active'); timerEl.textContent=`(${timeLeft}s)`;
+                const newCountdown=setInterval(()=>{
+                    if(timeLeft>0){ timerEl.textContent=`(${timeLeft}s)`; timeLeft--; }
+                    else{ clearInterval(newCountdown); timerEl.textContent=''; resendEl.classList.add('active'); }
+                },1000);
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gym Live Session</title>
+</head>
+<body style="font-family: Arial, sans-serif; background:#f4f4f4; padding:20px;">
+<div style="max-width:650px; margin:auto; background:white; border-radius:10px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+    <!-- Header image -->
+    <img src="cid:gym_header" style="width:100%; display:block;">
+
+    <div style="padding:30px;">
+        <h2 style="color:#1a1a2e;">Hello {{ member.first_name }}!</h2>
+        <p>You are invited to a new Live Session at our Gym.</p>
+
+        <h3 style="margin-top:20px;">Session Details</h3>
+        <ul>
+            <li><strong>Title:</strong> {{ session.session_title }}</li>
+            <li><strong>Trainer:</strong> {{ session.trainer_name }}</li>
+            <li><strong>Date & Time:</strong> {{ session.session_datetime|date:"F d, Y - H:i" }}</li>
+            <li><strong>Duration:</strong> {{ session.duration }} minutes</li>
+            <li><strong>Participants:</strong> {{ session.participants }}</li>
+            <li><strong>Session Link:</strong> <a href="{{ session.session_link }}">Join Session</a></li>
+            {% if session.note %}
+            <li><strong>Note:</strong> {{ session.note }}</li>
+            {% endif %}
+        </ul>
+
+        <p style="margin-top:20px;">Stay fit and see you in the session!</p>
+        <p style="color:#888;">- FitMax Gym Team</p>
+    </div>
+</div>
+</body>
+</html>

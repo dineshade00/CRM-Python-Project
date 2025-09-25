@@ -1,0 +1,465 @@
+{% extends 'app/base1.html' %} {% load static %} {% block content %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- Page Title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-flex align-items-center justify-content-between"
+          >
+            <h4 class="mb-sm-0">Supplement Sale</h4>
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Supplement Sale</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="container mt-0">
+        <div class="card shadow-lg">
+          <div class="card-header">
+            <h4 class="card-title">Add Supplement Sale</h4>
+          </div>
+          {% if messages %}
+          <div id="msgBox">
+            {% for message in messages %}
+            <div class="alert alert-success text-center">{{ message }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="card-body">
+            <form method="POST" action="{% url 'add-supplement' %}">
+              {% csrf_token %}
+              <div class="row">
+                <!-- Customer Name -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Customer Name</label>
+                  <input
+                    type="text"
+                    name="customer_name"
+                    class="form-control"
+                    placeholder="Enter Customer Name"
+                    required
+                  />
+                </div>
+
+                <!-- Contact No -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Contact No</label>
+                  <input
+                    type="number"
+                    name="contact_no"
+                    class="form-control"
+                    placeholder="Enter Contact No"
+                    required
+                  />
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter Email"
+                    required
+                  />
+                </div>
+
+                <!-- City -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">City</label>
+                  <input
+                    type="text"
+                    name="city"
+                    class="form-control"
+                    placeholder="Enter City Name"
+                    required
+                  />
+                </div>
+
+                <!-- Aadhaar -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Aadhar Number</label>
+                  <input
+                    type="number"
+                    name="adhar_number"
+                    class="form-control"
+                    maxlength="12"
+                    placeholder="Enter Adhar Number"
+                    required
+                  />
+                </div>
+
+                <!-- Product Name -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Product Name</label>
+                  <input
+                    type="text"
+                    name="product_name"
+                    class="form-control"
+                    placeholder="Enter Product Name"
+                    required
+                  />
+                </div>
+
+                <!-- Product Quantity -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Product Quantity</label>
+                  <input
+                    type="number"
+                    name="product_quantity"
+                    class="form-control"
+                    placeholder="Enter Product Quantity"
+                    required
+                  />
+                </div>
+
+                <!-- Product Price -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Product Price (₹)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    name="product_price"
+                    class="form-control"
+                    placeholder="Enter Product Price"
+                    required
+                  />
+                </div>
+
+                <!-- Product Company -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Product Company</label>
+                  <input
+                    type="text"
+                    name="product_company_name"
+                    class="form-control"
+                    placeholder="Enter Product Company Name"
+                    required
+                  />
+                </div>
+
+                <!-- Sale Date -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Sale Date</label>
+                  <input
+                    type="date"
+                    name="sale_date"
+                    class="form-control"
+                    placeholder="Select Sale Date"
+                    required
+                  />
+                </div>
+
+                <!-- Expiry Date -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Product Expiry Date</label>
+                  <input
+                    type="date"
+                    name="product_expiry_date"
+                    class="form-control"
+                    placeholder="Select Product Expiry Date"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mt-3">
+                <button type="submit" class="btn btn-primary">
+                  Save Record
+                </button>
+
+                <button type="button" class="btn btn-info" id="showRecordsBtn">
+                  Show All Records
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Records Table -->
+      <div class="container mt-4" id="recordsTable" style="display: none">
+        <div class="card shadow-lg">
+          <div class="card-header">
+            <h4 class="card-title">All Supplement Sales</h4>
+          </div>
+          <div class="table-responsive">
+            <table
+              class="table table-bordered table-striped text-center align-middle"
+            >
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Customer Name</th>
+                  <th class="d-none d-md-table-cell">Contact</th>
+                  <th class="d-none d-md-table-cell">Email</th>
+                  <th class="d-none d-md-table-cell">City</th>
+                  <th class="d-none d-md-table-cell">Aadhar</th>
+                  <th class="d-none d-md-table-cell">Product</th>
+                  <th class="d-none d-md-table-cell">Qty</th>
+                  <th class="d-none d-md-table-cell">Price</th>
+                  <th class="d-none d-md-table-cell">Company</th>
+                  <th class="d-none d-md-table-cell">Sale Date</th>
+                  <th class="d-none d-md-table-cell">Expiry Date</th>
+                  <th class="d-none d-md-table-cell">Created At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for sale in sales %}
+                <tr data-id="{{ sale.id }}">
+                  <td>{{ sale.id }}</td>
+                  <td class="custName">
+                    {{ sale.customer_name }}
+                    <!-- + Icon (visible only on mobile) -->
+                    <button
+                      class="btn btn-sm btn-outline-primary d-md-none ms-2"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#details{{ sale.id }}"
+                      aria-expanded="false"
+                      aria-controls="details{{ sale.id }}"
+                    >
+                      ➕
+                    </button>
+                  </td>
+                  <!-- Desktop Columns -->
+                  <td class="custContact d-none d-md-table-cell">
+                    {{ sale.contact_no }}
+                  </td>
+                  <td class="custEmail d-none d-md-table-cell">
+                    {{ sale.email }}
+                  </td>
+                  <td class="custCity d-none d-md-table-cell">
+                    {{ sale.city }}
+                  </td>
+                  <td class="custAadhar d-none d-md-table-cell">
+                    {{ sale.adhar_number }}
+                  </td>
+                  <td class="prodName d-none d-md-table-cell">
+                    {{ sale.product_name }}
+                  </td>
+                  <td class="prodQty d-none d-md-table-cell">
+                    {{ sale.product_quantity }}
+                  </td>
+                  <td class="prodPrice d-none d-md-table-cell">
+                    {{ sale.product_price }}
+                  </td>
+                  <td class="prodCompany d-none d-md-table-cell">
+                    {{ sale.product_company_name }}
+                  </td>
+                  <td class="saleDate d-none d-md-table-cell">
+                    {{ sale.sale_date }}
+                  </td>
+                  <td class="expiryDate d-none d-md-table-cell">
+                    {{ sale.product_expiry_date }}
+                  </td>
+                  <td class="createdAt d-none d-md-table-cell">
+                    {{ sale.created_at }}
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-sm btn-secondary"
+                      onclick="printBill({{ sale.id }})"
+                    >
+                      🖨 Print
+                    </button>
+                    <a
+                      href="{% url 'delete-supplement' sale.id %}"
+                      class="btn btn-sm btn-danger"
+                      onclick="return confirm('Kya aap sure ho delete karna chahte ho?')"
+                      >🗑</a
+                    >
+                  </td>
+                </tr>
+
+                <!-- Mobile Expandable Row -->
+                <tr class="d-md-none">
+                  <td colspan="3" class="p-0">
+                    <div class="collapse" id="details{{ sale.id }}">
+                      <div class="card card-body text-start">
+                        <p><strong>Contact:</strong> {{ sale.contact_no }}</p>
+                        <p><strong>Email:</strong> {{ sale.email }}</p>
+                        <p><strong>City:</strong> {{ sale.city }}</p>
+                        <p><strong>Aadhar:</strong> {{ sale.adhar_number }}</p>
+                        <p><strong>Product:</strong> {{ sale.product_name }}</p>
+                        <p><strong>Qty:</strong> {{ sale.product_quantity }}</p>
+                        <p><strong>Price:</strong> {{ sale.product_price }}</p>
+                        <p>
+                          <strong>Company:</strong> {{ sale.product_company_name
+                          }}
+                        </p>
+                        <p><strong>Sale Date:</strong> {{ sale.sale_date }}</p>
+                        <p>
+                          <strong>Expiry Date:</strong> {{
+                          sale.product_expiry_date }}
+                        </p>
+                        <p>
+                          <strong>Created At:</strong> {{ sale.created_at }}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="14">No records found.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="invoiceTemplate" style="display: none">
+  <div
+    style="
+      width: 700px;
+      margin: auto;
+      font-family: Arial;
+      border: 1px solid #ddd;
+      padding: 20px;
+    "
+  >
+    <table style="width: 100%">
+      <tr>
+        <td>
+          <h2>Clivax Gym</h2>
+          <p>
+            Address: Nagpur, Maharashtra<br />
+            Phone: +91 9876543210<br />
+            Email: info@clivaxgym.com
+          </p>
+        </td>
+        <td style="text-align: right; color: red; font-weight: bold">
+          INVOICE
+        </td>
+      </tr>
+    </table>
+    <hr />
+
+    <p><b>Customer Name:</b> <span id="custName"></span></p>
+    <p><b>Contact:</b> <span id="custContact"></span></p>
+    <p><b>Email:</b> <span id="custEmail"></span></p>
+    <p><b>City:</b> <span id="custCity"></span></p>
+    <p><b>Aadhar:</b> <span id="custAadhar"></span></p>
+
+    <table
+      border="1"
+      width="100%"
+      cellspacing="0"
+      cellpadding="8"
+      style="margin-top: 15px; border-collapse: collapse"
+    >
+      <thead style="background: #f8f8f8">
+        <tr>
+          <th>No</th>
+          <th>Description</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>01</td>
+          <td id="prodName"></td>
+          <td id="prodQty"></td>
+          <td id="prodPrice"></td>
+          <td id="prodTotal"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="text-align: right; margin-top: 10px">
+      Total: ₹<span id="grandTotal"></span>
+    </h3>
+
+    <p><b>Sale Date:</b> <span id="saleDate"></span></p>
+    <p><b>Expiry Date:</b> <span id="expiryDate"></span></p>
+
+    <hr />
+    <p><i>This is a computer-generated invoice.</i></p>
+  </div>
+</div>
+<script>
+  function printBill(id) {
+    // Row se data nikalna
+    let row = document.querySelector(`tr[data-id='${id}']`);
+    let name = row.querySelector(".custName").innerText;
+    let contact = row.querySelector(".custContact").innerText;
+    let email = row.querySelector(".custEmail").innerText;
+    let city = row.querySelector(".custCity").innerText;
+    let aadhar = row.querySelector(".custAadhar").innerText;
+    let product = row.querySelector(".prodName").innerText;
+    let qty = row.querySelector(".prodQty").innerText;
+    let price = row.querySelector(".prodPrice").innerText;
+    let saleDate = row.querySelector(".saleDate").innerText;
+    let expiryDate = row.querySelector(".expiryDate").innerText;
+
+    // Total calculate
+    let total = parseFloat(qty) * parseFloat(price);
+
+    // Invoice template fill
+    document.getElementById("custName").innerText = name;
+    document.getElementById("custContact").innerText = contact;
+    document.getElementById("custEmail").innerText = email;
+    document.getElementById("custCity").innerText = city;
+    document.getElementById("custAadhar").innerText = aadhar;
+    document.getElementById("prodName").innerText = product;
+    document.getElementById("prodQty").innerText = qty;
+    document.getElementById("prodPrice").innerText = "₹" + price;
+    document.getElementById("prodTotal").innerText = "₹" + total;
+    document.getElementById("grandTotal").innerText = total;
+    document.getElementById("saleDate").innerText = saleDate;
+    document.getElementById("expiryDate").innerText = expiryDate;
+
+    // Print Window open
+    let printContents = document.getElementById("invoiceTemplate").innerHTML;
+    let newWin = window.open("", "", "width=800,height=600");
+    newWin.document.write(printContents);
+    newWin.document.close();
+    newWin.print();
+  }
+</script>
+
+<script>
+  document
+    .getElementById("showRecordsBtn")
+    .addEventListener("click", function () {
+      let table = document.getElementById("recordsTable");
+      if (table.style.display === "none" || table.style.display === "") {
+        table.style.display = "block";
+        this.textContent = "Hide Records";
+      } else {
+        table.style.display = "none";
+        this.textContent = "Show All Records";
+      }
+    });
+</script>
+<script>
+  setTimeout(function () {
+    let msgBox = document.getElementById("msgBox");
+    if (msgBox) {
+      msgBox.style.display = "none"; // 3 sec ke baad message gayab ho jayega
+    }
+  }, 3000);
+</script>
+
+{% endblock %}

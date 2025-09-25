@@ -1,0 +1,645 @@
+{% extends "app/base1.html" %} {% load static %} {% block content %}
+
+<style>
+  /* Popup background */
+  .birthday-popup {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Popup content box */
+  .birthday-popup-content {
+    background: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 320px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  .birthday-popup-content img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .birthday-carousel {
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    background: whitesmoke; /* background clean रहे */
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .birthday-track {
+    display: inline-block;
+    animation: scroll 15s linear infinite;
+  }
+
+  .birthday-card {
+    display: inline-block;
+    width: 160px;
+    margin: 0 12px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* हल्का dark border */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* हल्की shadow */
+  }
+
+  .birthday-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #f8f9fa; /* हल्का white border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>
+
+<div id="layout-wrapper">
+  <!-- Start right Content here -->
+
+  <div class="main-content">
+    <div class="page-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="page-title-box d-flex align-items-center justify-content-between"
+            >
+              <div>
+                <h4 class="fs-16 fw-semibold mb-1 mb-md-2">
+                  <span id="greetingText">Good Morning</span>,
+                  <span class="text-primary"
+                    >{{ request.session.username }}</span
+                  >!
+                </h4>
+
+                <p class="text-muted mb-0">
+                  Your gym’s energy, captured in today’s updates.
+                </p>
+              </div>
+              <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">Clivax</a>
+                  </li>
+                  <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--    end row -->
+
+        <div class="row">
+          <div class="col-xxl-9">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <i class="fas fa-cart-plus fs-14 text-muted"></i>
+                </div>
+                <h4 class="card-title mb-0">Overall Sales</h4>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div
+                      class="d-flex justify-content-between align-content-end shadow-lg p-3"
+                    >
+                      <div>
+                        <p class="text-muted text-truncate mb-2">
+                          Total Members
+                        </p>
+                        <h5 class="mb-0">{{ total_members }}</h5>
+                      </div>
+                      <div class="text-success float-end">
+                        <i class="mdi mdi-menu-up"> </i>1.2%
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div
+                      class="d-flex justify-content-between align-content-end shadow-lg p-3"
+                    >
+                      <div>
+                        <p class="text-muted text-truncate mb-2">
+                          Member Expiring Soon
+                        </p>
+                        <h5 class="mb-0">
+                          {{ expiring_this_month|default:"0" }}
+                        </h5>
+                      </div>
+                      <div class="text-success float-end">
+                        <i class="mdi mdi-menu-up"> </i>3.0%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div
+                      class="d-flex justify-content-between align-content-end shadow-lg p-3"
+                    >
+                      <div>
+                        <p class="text-muted text-truncate mb-2">
+                          Total Revenue
+                        </p>
+                        <h5 class="mb-0">₹{{ total_revenue }}</h5>
+                      </div>
+                      <div class="text-success float-end">
+                        <i class="mdi mdi-menu-up"> </i>2.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4 mt-3">
+                    <div
+                      class="d-flex justify-content-between align-content-end shadow-lg p-3"
+                    >
+                      <div>
+                        <p class="text-muted text-truncate mb-2">
+                          Active Trainers
+                        </p>
+                        <h5 class="mb-0">{{ active_trainers }}</h5>
+                      </div>
+                      <div class="text-success float-end">
+                        <i class="mdi mdi-menu-up"> </i>1.5%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4 mt-3">
+                    <div
+                      class="d-flex justify-content-between align-content-end shadow-lg p-3"
+                    >
+                      <div>
+                        <p class="text-muted text-truncate mb-2">
+                          Total Equipment
+                        </p>
+                        <h5 class="mb-0">{{ total_equipments }}</h5>
+                      </div>
+                      <div class="text-success float-end">
+                        <i class="mdi mdi-menu-up"> </i>0.9%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4 mt-3">
+                    <div
+                      class="d-flex justify-content-between align-content-end shadow-lg p-3"
+                    >
+                      <div>
+                        <p class="text-muted text-truncate mb-2">
+                          Expired Member
+                        </p>
+                        <h5 class="mb-0">{{ expired_members }}</h5>
+                      </div>
+                      <div class="text-danger float-end">
+                        <i class="mdi mdi-menu-down"> </i>1.1%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row position-relative">
+              <!-- Supplement Sales Card -->
+              <div class="col-xl-4">
+                <div
+                  class="card bg-danger-subtle"
+                  style="
+                    background: url('assets/images/dashboard/dashboard-shape-1.png');
+                    background-repeat: no-repeat;
+                    background-position: bottom center;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="avatar avatar-sm avatar-label-danger">
+                        <i class="mdi mdi-buffer mt-1"></i>
+                      </div>
+                      <div class="ms-3">
+                        <p class="text-danger mb-1">Supplement Sales</p>
+                        <h4 class="mb-0" id="supplementTotal">
+                          ₹{{ product_revenue|floatformat:2 }}
+                        </h4>
+                      </div>
+                    </div>
+                    <div class="hstack gap-2 mt-3">
+                      <a
+                        href="{% url 'add-supplement' %}"
+                        class="btn btn-primary"
+                      >
+                        Add New Sale
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Active Memberships -->
+              <div class="col-xl-4">
+                <div
+                  class="card bg-success-subtle"
+                  style="
+                    background: url('assets/images/dashboard/dashboard-shape-2.png');
+                    background-repeat: no-repeat;
+                    background-position: bottom center;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="avatar avatar-sm avatar-label-success">
+                        <i class="mdi mdi-account-multiple mt-1"></i>
+                      </div>
+                      <div class="ms-3">
+                        <p class="text-success mb-1">Active Memberships</p>
+                        <h4 class="mb-0">
+                          {{ active_members }} / {{ total_members }} Members
+                        </h4>
+                      </div>
+                    </div>
+                    <div class="mt-3 mb-2">
+                      <p class="mb-0">{{ expiring_soon }} expiring soon</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sessions Completed -->
+              <div class="col-xl-4">
+                <div
+                  class="card bg-info-subtle"
+                  style="
+                    background: url('assets/images/dashboard/dashboard-shape-3.png');
+                    background-repeat: no-repeat;
+                    background-position: bottom center;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="avatar avatar-sm avatar-label-info">
+                        <i class="mdi mdi-dumbbell mt-1"></i>
+                      </div>
+                      <div class="ms-3">
+                        <p class="text-info mb-1">Total Sessions Completed</p>
+                        <h4 class="mb-0">{{ total_sessions }}</h4>
+                      </div>
+                    </div>
+                    <div class="mt-3 mb-2">
+                      <p class="mb-0">
+                        <span class="text-primary me-2 fs-14"> </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end row -->
+            <!-- Birthday Dashboard Section -->
+
+            <div class="row">
+              <!-- Today's Birthdays -->
+              <div class="col-md-6">
+                <h5 class="mb-3 text-center">🎉 Today's Birthdays</h5>
+                {% if today_birthdays %}
+                <div class="birthday-carousel">
+                  <div class="birthday-track">
+                    {% for person in today_birthdays %}
+                    <div class="birthday-card">
+                      <img
+                        src="{% if person.photo %}{{ person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+                        alt="Photo"
+                      />
+                      <h6 class="mb-0 mt-2">
+                        {{ person.first_name }} {{ person.last_name }}
+                      </h6>
+                      <small class="text-muted"
+                        >{{ person.dob|date:"d M" }}</small
+                      >
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">🎂 No Birthday Today</p>
+                {% endif %}
+              </div>
+
+              <!-- Upcoming Birthdays -->
+              <div class="col-md-6">
+                <h5 class="mb-3 text-center">🎊 Upcoming Birthdays</h5>
+                {% if upcoming_birthdays %}
+                <div class="birthday-carousel">
+                  <div class="birthday-track">
+                    {% for person in upcoming_birthdays %}
+                    <div class="birthday-card">
+                      <img
+                        src="{% if person.photo %}{{ person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+                        alt="Photo"
+                      />
+                      <h6 class="mb-0 mt-2">
+                        {{ person.first_name }} {{ person.last_name }}
+                      </h6>
+                      <small class="text-muted"
+                        >{{ person.dob|date:"d M" }}</small
+                      >
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">🙌 No Upcoming Birthdays</p>
+                {% endif %}
+              </div>
+            </div>
+
+            <section class="gym-revenue-section py-4">
+              <div class="container-fluid">
+                <div class="card shadow-sm border-0">
+                  <div class="card-body">
+                    <!-- Top Filters -->
+                    <div
+                      class="d-flex flex-wrap justify-content-between align-items-center mb-4"
+                    >
+                      <h3 class="card-title text-primary mb-2">
+                        Gym Revenue Analytics
+                      </h3>
+                      <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <label class="form-label mb-0">From:</label>
+                        <input
+                          type="date"
+                          class="form-control form-control-sm"
+                          id="revenueFromDate"
+                        />
+                        <label class="form-label mb-0">To:</label>
+                        <input
+                          type="date"
+                          class="form-control form-control-sm"
+                          id="revenueToDate"
+                        />
+                        <button class="btn btn-primary btn-sm" id="filterBtn">
+                          Show Records
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Month Range Buttons -->
+                    <div class="btn-group mb-3" role="group">
+                      <button
+                        class="btn btn-outline-primary btn-sm range-btn"
+                        data-range="2"
+                      >
+                        Last 2 Months
+                      </button>
+                      <button
+                        class="btn btn-outline-primary btn-sm range-btn"
+                        data-range="3"
+                      >
+                        Last 3 Months
+                      </button>
+                      <button
+                        class="btn btn-outline-primary btn-sm range-btn"
+                        data-range="6"
+                      >
+                        Last 6 Months
+                      </button>
+                      <button
+                        class="btn btn-outline-primary btn-sm range-btn"
+                        data-range="12"
+                      >
+                        Last 12 Months
+                      </button>
+                    </div>
+
+                    <!-- Chart -->
+                    <canvas
+                      id="revenueBarChart"
+                      style="height: 300px; width: 100%"
+                    ></canvas>
+
+                    <!-- Revenue Stats -->
+                    <div class="row text-center mt-4">
+                      <div class="col-md-4 mb-3">
+                        <h6 class="text-muted">Total Revenue</h6>
+                        <h4 class="text-success fw-bold" id="totalRevenue">
+                          ₹{{ total_revenue }}
+                        </h4>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <h6 class="text-muted">Average per Month</h6>
+                        <h4 class="text-info fw-bold" id="avgRevenue">
+                          ₹{{ average_revenue }}
+                        </h4>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <h6 class="text-muted">Highest Earning</h6>
+                        <h4 class="text-danger fw-bold" id="maxRevenue">
+                          ₹{{ max_revenue }}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <!-- end row -->
+
+        <!-- end row -->
+      </div>
+      <!-- end container-fluid -->
+    </div>
+    <!-- End Page-content -->
+  </div>
+  <!-- end main content-->
+</div>
+<!-- end layout-wrapper -->
+<!-- Popup Modal (Hidden by default) -->
+<div id="birthdayPopup" class="birthday-popup">
+  <div class="birthday-popup-content">
+    <span class="close-btn" onclick="closeBirthdayPopup()">&times;</span>
+
+    <h5 style="text-align: center; color: green">
+      🎂🪩✨ Today's Birthday ✨🪩🎂
+    </h5><hr style="color: darkpink">
+    <div id="popupBody"></div>
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Django से today's birthdays data लेंगे
+    const birthdays = [
+      {% for person in today_birthdays %}
+      {
+        name: "{{ person.first_name }} {{ person.last_name }}",
+        date: "{{ person.dob|date:'d M' }}",
+        photo: "{% if person.photo %}{{ person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+      },
+      {% endfor %}
+    ];
+
+    if (birthdays.length > 0) {
+      let popupBody = document.getElementById("popupBody");
+      popupBody.innerHTML = "";
+
+      birthdays.forEach(b => {
+        popupBody.innerHTML += `
+          <div>
+            <img src="${b.photo}" alt="Birthday Person">
+            <h4>${b.name}</h4>
+            <p>🎂 ${b.date}</p>
+          </div>
+          <hr/>
+        `;
+      });
+
+      document.getElementById("birthdayPopup").style.display = "block";
+    }
+  });
+
+  function closeBirthdayPopup() {
+    document.getElementById("birthdayPopup").style.display = "none";
+  }
+</script>
+
+<script>
+  let revenueMonths = {{ revenue_months|safe }};
+  let revenueValues = {{ revenue_values|safe }};
+
+  const ctx = document.getElementById('revenueBarChart').getContext('2d');
+  let revenueChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: revenueMonths,
+      datasets: [{
+        label: 'Revenue (₹)',
+        data: revenueValues,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return '₹' + context.raw.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // ---------------- Dynamic Buttons ----------------
+  document.querySelectorAll('.range-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const months = parseInt(this.dataset.range);
+
+      // Slice last 'months' records
+      const labels = revenueMonths.slice(-months);
+      const data = revenueValues.slice(-months);
+
+      revenueChart.data.labels = labels;
+      revenueChart.data.datasets[0].data = data;
+      revenueChart.update();
+    });
+  });
+
+  // ---------------- Custom Date Filter (Optional: AJAX can be added) ----------------
+  document.getElementById('filterBtn').addEventListener('click', function(){
+    const from = document.getElementById('revenueFromDate').value;
+    const to = document.getElementById('revenueToDate').value;
+
+    if(from && to){
+      // Filter data by dates (client-side example)
+      let filteredLabels = [];
+      let filteredData = [];
+      for(let i=0; i<revenueMonths.length; i++){
+        const monthDate = new Date(revenueMonths[i]+"-01");
+        if(monthDate >= new Date(from) && monthDate <= new Date(to)){
+          filteredLabels.push(revenueMonths[i]);
+          filteredData.push(revenueValues[i]);
+        }
+      }
+      revenueChart.data.labels = filteredLabels;
+      revenueChart.data.datasets[0].data = filteredData;
+      revenueChart.update();
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const greetingEl = document.getElementById("greetingText");
+    const hour = new Date().getHours();
+
+    let greeting = "Good Morning"; // default
+    if (hour >= 12 && hour < 18) {
+      greeting = "Good Afternoon";
+    } else if (hour >= 18) {
+      greeting = "Good Evening";
+    }
+
+    greetingEl.textContent = greeting;
+  });
+</script>
+
+{% endblock %}

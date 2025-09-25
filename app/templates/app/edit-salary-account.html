@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Add New Account | Clivax</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Codebucks" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+
+    <!-- dark layout js -->
+    <script src="assets/js/pages/layout.js"></script>
+
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- simplebar css -->
+    <link href="assets/libs/simplebar/simplebar.min.css" rel="stylesheet">
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+    <div id="layout-wrapper">
+
+
+        <!-- Start topbar -->
+        <header id="page-topbar">
+            <div class="navbar-header">
+
+                <!-- Logo -->
+
+                <!-- Start Navbar-Brand -->
+                <div class="navbar-logo-box">
+                    <a href="index.html" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="assets/images/logo-sm.png" alt="logo-sm-dark" height="20">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="assets/images/logo-dark.png" alt="logo-dark" height="18">
+                        </span>
+                    </a>
+
+                    <a href="index.html" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="assets/images/logo-sm.png" alt="logo-sm-light" height="20">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="assets/images/logo-light.png" alt="logo-light" height="18">
+                        </span>
+                    </a>
+
+                    <button type="button" class="btn btn-sm top-icon sidebar-btn" id="sidebar-btn">
+                        <i class="mdi mdi-menu-open align-middle fs-19"></i>
+                    </button>
+                </div>
+                <!-- End navbar brand -->
+
+                           <!-- Start menu -->
+                <div class="d-flex justify-content-between menu-sm px-3 ms-auto">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="dropdown d-none d-lg-block">
+                            <button type="button" class="btn btn-primary btn-sm fs-14 d-inline"
+                                data-bs-toggle="dropdown">
+                                Gym Modules
+                                <i class="mdi mdi-chevron-down align-middle"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-start dropdown-menu-animated">
+
+                                <!-- Inventory Manager -->
+                                <a href="equipment.html" class="dropdown-item">
+                                    <div class="dropdown-icon"><i class="fas fa-dumbbell"></i></div>
+                                    <span class="dropdown-content">Equipments</span>
+                                    <div class="dropdown-addon"><span class="badge badge-warning rounded-pill">20</span>
+                                    </div>
+                                </a>
+
+                                <!-- Invoice -->
+                                <a href="create-invoice.html" class="dropdown-item">
+                                    <div class="dropdown-icon"><i class="fas fa-file-invoice"></i></div>
+                                    <span class="dropdown-content">Membership Invoice</span>
+                                </a>
+
+                                <!-- Divider -->
+                                <div class="dropdown-divider"></div>
+
+                                <!-- My Account -->
+                                <a href="apps-contact.html" class="dropdown-item">
+                                    <div class="dropdown-icon"><i class="fas fa-user-circle"></i></div>
+                                    <span class="dropdown-content">My Profile</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown d-none d-lg-block">
+                            <button type="button" class="btn btn-primary btn-sm fs-14" data-bs-toggle="dropdown"
+                                aria-haspopup="false" aria-expanded="false">
+                                Features
+                                <i class="mdi mdi-chevron-down align-middle"></i>
+                            </button>
+                            <div
+                                class="dropdown-menu dropdown-menu-start dropdown-menu-lg-widest dropdown-menu-widest dropdown-menu-animated bg-primary-subtle overflow-hidden">
+                                <div class="dropdown-row justify-content-center">
+
+                                    <!-- Original Image (Unchanged) -->
+                                    <div class="p-2 menu-image">
+                                        <img src="assets/images/mega-menu.png" alt="mega-menu image" class="img-fluid"
+                                            style="height: 200px;">
+                                    </div>
+
+                                    <!-- Gym Welcome Section -->
+                                    <div class="dropdown-col">
+                                        <h2 class="">Welcome to Clivax Gym!</h2>
+                                        <p class="text-muted mb-0">
+                                            Track members, manage plans, monitor trainers, and streamline gym operations
+                                            with our digital gym
+                                            dashboard.
+                                        </p>
+                                        <div class="mt-3">
+                                            <a href="auth-login.html" class="btn btn-dark btn-wider">Admin Login</a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Features Section -->
+                                    <div class="dropdown-col border-start border-primary border-opacity-50">
+                                        <h4 class="dropdown-header">Gym Features</h4>
+                                        <div class="grid-nav grid-nav-action">
+                                            <div class="grid-nav-row">
+                                                <a href="index.html" class="grid-nav-item">
+                                                    <div class="grid-nav-icon"><i class="fas fa-chart-line"></i></div>
+                                                    <span class="grid-nav-content">Dashboard</span>
+                                                </a>
+                                                <a href="show-all-member.html" class="grid-nav-item">
+                                                    <div class="grid-nav-icon"><i class="fas fa-user-friends"></i></div>
+                                                    <span class="grid-nav-content">Members</span>
+                                                </a>
+                                                <a href="renewals.html" class="grid-nav-item">
+                                                    <div class="grid-nav-icon"><i class="fas fa-redo-alt"></i></div>
+                                                    <span class="grid-nav-content">Renewals</span>
+                                                </a>
+                                            </div>
+                                            <div class="grid-nav-row">
+                                                <a href="trainer-profile.html" class="grid-nav-item">
+                                                    <div class="grid-nav-icon"><i class="fas fa-dumbbell"></i></div>
+                                                    <span class="grid-nav-content">Trainers</span>
+                                                </a>
+                                                <a href="view-plan.html" class="grid-nav-item">
+                                                    <div class="grid-nav-icon"><i class="fas fa-id-card-alt"></i></div>
+                                                    <span class="grid-nav-content">Membership Plans</span>
+                                                </a>
+                                                <a href="revenue-report.html" class="grid-nav-item">
+                                                    <div class="grid-nav-icon"><i class="fas fa-file-alt"></i></div>
+                                                    <span class="grid-nav-content">Reports</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tools Section -->
+                                    <div class="dropdown-col border-start border-primary border-opacity-50">
+                                        <h4 class="dropdown-header">Quick Tools</h4>
+                                        <a href="attendance.html" class="dropdown-item">
+                                            <i
+                                                class="mdi mdi-account-check-outline align-middle dropdown-bullet me-2"></i>
+                                            <span class="dropdown-content">Attendance</span>
+                                        </a>
+                                        <a href="diet-plan.html" class="dropdown-item">
+                                            <i class="mdi mdi-food-apple-outline align-middle dropdown-bullet me-2"></i>
+                                            <span class="dropdown-content">Diet Plans</span>
+                                        </a>
+                                        <a href="manage-staff.html" class="dropdown-item">
+                                            <i class="mdi mdi-account-tie align-middle dropdown-bullet me-2"></i>
+                                            <span class="dropdown-content">Staff Management</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   <div class="d-flex align-items-center gap-2">
+             
+              <!-- Start Notification -->
+              <div class="dropdown d-inline-block">
+                <button
+                  type="button"
+                  class="btn btn-sm top-icon"
+                  id="page-header-notifications-dropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-bell align-middle"></i>
+                  <span class="btn-marker"
+                    ><i class="marker marker-dot text-danger"></i
+                  ></span>
+                </button>
+                <div
+                  class="dropdown-menu dropdown-menu-lg dropdown-menu-md dropdown-menu-end p-0"
+                  aria-labelledby="page-header-notifications-dropdown"
+                >
+                  <div class="p-3 bg-info">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <h6 class="text-white m-0">
+                          <i class="far fa-bell me-2"></i> Notifications
+                        </h6>
+                      </div>
+                      <div class="col-auto">
+                        <a href="#!" class="badge bg-info-subtle text-info">
+                          6+</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div data-simplebar style="max-height: 230px">
+                    <a href="#" class="text-reset notification-item">
+                      <div class="d-flex">
+                        <div class="avatar avatar-xs avatar-label-success me-3">
+                          <span class="rounded fs-16">
+                            <i class="mdi mdi-account-plus-outline"></i>
+                          </span>
+                        </div>
+                        <div class="flex-1">
+                          <h6 class="mb-1">New member registered</h6>
+                          <div class="fs-12 text-muted">
+                            <p class="mb-0">
+                              <i class="mdi mdi-clock-outline"></i> 5 min ago
+                            </p>
+                          </div>
+                        </div>
+                        <i class="mdi mdi-chevron-right align-middle ms-2"></i>
+                      </div>
+                    </a>
+
+                    <a href="#" class="text-reset notification-item">
+                      <div class="d-flex">
+                        <div class="avatar avatar-xs avatar-label-warning me-3">
+                          <span class="rounded fs-16">
+                            <i class="mdi mdi-alarm"></i>
+                          </span>
+                        </div>
+                        <div class="flex-1">
+                          <h6 class="mb-1">Session missed by trainer</h6>
+                          <div class="fs-12 text-muted">
+                            <p class="mb-0">
+                              <i class="mdi mdi-clock-outline"></i> 30 min ago
+                            </p>
+                          </div>
+                        </div>
+                        <i class="mdi mdi-chevron-right align-middle ms-2"></i>
+                      </div>
+                    </a>
+
+                    <a href="#" class="text-reset notification-item">
+                      <div class="d-flex">
+                        <div class="avatar avatar-xs avatar-label-danger me-3">
+                          <span class="rounded fs-16">
+                            <i class="mdi mdi-cash-clock"></i>
+                          </span>
+                        </div>
+                        <div class="flex-1">
+                          <h6 class="mb-1">Payment due for member ID #1023</h6>
+                          <div class="fs-12 text-muted">
+                            <p class="mb-0">
+                              <i class="mdi mdi-clock-outline"></i> 2 hours ago
+                            </p>
+                          </div>
+                        </div>
+                        <i class="mdi mdi-chevron-right align-middle ms-2"></i>
+                      </div>
+                    </a>
+
+                    <a href="#" class="text-reset notification-item">
+                      <div class="d-flex">
+                        <div class="avatar avatar-xs avatar-label-info me-3">
+                          <span class="rounded fs-16">
+                            <i class="mdi mdi-calendar-check-outline"></i>
+                          </span>
+                        </div>
+                        <div class="flex-1">
+                          <h6 class="mb-1">
+                            Today’s session starts in 30 minutes
+                          </h6>
+                          <div class="fs-12 text-muted">
+                            <p class="mb-0">
+                              <i class="mdi mdi-clock-outline"></i> 3 hours ago
+                            </p>
+                          </div>
+                        </div>
+                        <i class="mdi mdi-chevron-right align-middle ms-2"></i>
+                      </div>
+                    </a>
+
+                    <a href="#" class="text-reset notification-item">
+                      <div class="d-flex">
+                        <div
+                          class="avatar avatar-xs avatar-label-secondary me-3"
+                        >
+                          <span class="rounded fs-16">
+                            <i class="mdi mdi-update"></i>
+                          </span>
+                        </div>
+                        <div class="flex-1">
+                          <h6 class="mb-1">Member plan updated (ID #1008)</h6>
+                          <div class="fs-12 text-muted">
+                            <p class="mb-0">
+                              <i class="mdi mdi-clock-outline"></i> Yesterday
+                            </p>
+                          </div>
+                        </div>
+                        <i class="mdi mdi-chevron-right align-middle ms-2"></i>
+                      </div>
+                    </a>
+
+                    <a href="#" class="text-reset notification-item">
+                      <div class="d-flex">
+                        <div class="avatar avatar-xs avatar-label-primary me-3">
+                          <span class="rounded fs-16">
+                            <i class="mdi mdi-lock-reset"></i>
+                          </span>
+                        </div>
+                        <div class="flex-1">
+                          <h6 class="mb-1">Admin password changed</h6>
+                          <div class="fs-12 text-muted">
+                            <p class="mb-0">
+                              <i class="mdi mdi-clock-outline"></i> 2 days ago
+                            </p>
+                          </div>
+                        </div>
+                        <i class="mdi mdi-chevron-right align-middle ms-2"></i>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="p-2 border-top">
+                    <div class="d-grid">
+                      <a
+                        class="btn btn-sm btn-link font-size-14 text-center"
+                        href="javascript:void(0)"
+                      >
+                        <i class="mdi mdi-arrow-right-circle me-1"></i> View
+                        More..
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Notification -->
+
+              <!-- Start Profile -->
+              <div class="dropdown d-inline-block">
+                <button
+                  type="button"
+                  class="btn btn-sm top-icon p-0"
+                  id="page-header-user-dropdown"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <img
+                    class="rounded avatar-2xs p-0"
+                    src="assets/images/users/avatar-6.png"
+                    alt="Header Avatar"
+                  />
+                </button>
+                <div
+                  class="dropdown-menu dropdown-menu-wide dropdown-menu-end dropdown-menu-animated overflow-hidden py-0"
+                >
+                  <div class="card border-0">
+                    <div class="card-header bg-primary rounded-0">
+                      <div class="rich-list-item w-100 p-0">
+                        <div class="rich-list-prepend">
+                          <div class="avatar avatar-label-light avatar-circle">
+                            <div class="avatar-display">
+                              <i class="fas fa-user-circle"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="rich-list-content">
+                          <h3 class="rich-list-title text-white">Admin</h3>
+                          <span class="rich-list-subtitle text-white"
+                            >info@kavyainfoweb.com</span
+                          >
+                        </div>
+                        <div class="rich-list-append">
+                          <span class="badge badge-label-light fs-6">6+</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                      <div
+                        class="grid-nav grid-nav-flush grid-nav-action grid-nav-no-rounded"
+                      >
+                        <div class="grid-nav-row">
+                          <a href="apps-contact.html" class="grid-nav-item">
+                            <div class="grid-nav-icon">
+                              <i class="fas fa-user-edit"></i>
+                            </div>
+                            <span class="grid-nav-content">My Profile</span>
+                          </a>
+                          <a href="trainer-profile.html" class="grid-nav-item">
+                            <div class="grid-nav-icon">
+                              <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <span class="grid-nav-content">Trainer Profile</span>
+                          </a>
+                          <a href="#" class="grid-nav-item">
+                            <div class="grid-nav-icon">
+                              <i class="fas fa-running"></i>
+                            </div>
+                            <span class="grid-nav-content">Workout Logs</span>
+                          </a>
+                        </div>
+
+                        <div class="grid-nav-row">
+                          <a href="live-session.html" class="grid-nav-item">
+                            <div class="grid-nav-icon">
+                              <i class="far fa-calendar-check"></i>
+                            </div>
+                            <span class="grid-nav-content"
+                              >Session Calendar</span
+                            >
+                          </a>
+                          <a href="diet-plan.html" class="grid-nav-item">
+                            <div class="grid-nav-icon">
+                              <i class="fas fa-apple-alt"></i>
+                            </div>
+                            <span class="grid-nav-content">Diet Notes</span>
+                          </a>
+                          <a href="#" class="grid-nav-item">
+                            <div class="grid-nav-icon">
+                              <i class="far fa-bell"></i>
+                            </div>
+                            <span class="grid-nav-content">Notifications</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer card-footer-bordered rounded-0">
+                      <a href="auth-login.html" class="btn btn-label-danger"
+                        >Sign out</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Profile -->
+            </div>
+                </div>
+                <!-- End menu -->
+            </div>
+        </header>
+        <!-- End topbar -->
+
+        
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="sidebar-left">
+
+            <div data-simplebar class="h-100">
+
+                <!--- Sidebar-menu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="left-menu list-unstyled" id="side-menu">
+                        <li>
+                            <a href="index.html" class="">
+                                <i class="fas fa-desktop"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+
+                        <!-- <li class="menu-title">Elements</li> -->
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow ">
+                                <i class="fa fa-users"></i>
+                                <span>Member Management</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="add-new-member.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>Add New Member</a>
+                                </li>
+                                <li><a href="show-all-member.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>All Members</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow ">
+                                <i class="fa fa-id-card-alt"></i>
+                                <span>Membership Plans</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li>
+                                    <a href="add-new-plan.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
+                                        Add New
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="view-plan.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
+                                        View Plan
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow">
+                                <i class="fa fa-calendar-check"></i>
+                                <span>Session Management</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li>
+                                    <a href="live-session.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>Live Session
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="offline-session.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>Offline Session
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow ">
+                                <i class="fa fa-user-tie"></i>
+                                <span>Staff Management</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                
+                                <li><a href="add-new-staff.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i> Add New</a>
+                                </li>
+                                <li><a href="show-all-staff.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i> All Staff Members</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow ">
+                                <i class="fa fa-wallet"></i>
+                                <span>Account Management</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+
+                                <!-- Show All -->
+                                <li>
+                                    <a href="add-new-account.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>Add New Account
+                                    </a>
+                                </li>
+
+                                <!-- Show All -->
+                                <li>
+                                    <a href="show-all-account.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i> All Accounts
+                                    </a>
+                                </li>
+
+                                <!-- Member Invoices with dropdown -->
+                                <li>
+                                    <a href="create-invoice.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i> Create Invoices
+                                    </a>
+                                </li>
+
+                                <!-- Payment History -->
+                                <li>
+                                    <a href="pyments.html">
+                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i> Payment History
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="renewals.html">
+                                <i class="fa fa-sync-alt"></i>
+                                <span>Renewals</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="attendance.html">
+                                <i class="fa fa-calendar-check"></i>
+                                <span>Attendance</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow">
+                              <i class="fa fa-chart-pie"></i>
+                              <span>Reports</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+
+                                <!-- GYM-RELATED REPORTS -->
+                                <li>
+                                    <a href="membership-report.html">
+                                        <i class="mdi mdi-account-group-outline align-middle"></i> Membership Report
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="revenue-report.html">
+                                        <i class="mdi mdi-currency-inr align-middle"></i> Revenue Report
+                                    </a>
+                                </li>
+                               
+
+                                <!-- Existing Chart Pages -->
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="settings.html">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="auth-login.html">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0">Edit Staff Account</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                        <li class="breadcrumb-item active">Edit Staff Account</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+
+                    <!-- Add this in the body section -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header card-header-bordered">
+                                    <h3 class="card-title">Edit Staff Salary Account</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form id="salaryAccountForm" class="needs-validation" novalidate>
+
+                                        <!-- Row 1: Staff Basic Info -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="staffName" class="form-label">Staff Name</label>
+                                                <input type="text" class="form-control" id="staffName" required>
+                                                <div class="invalid-feedback">Please enter staff name.</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="staffID" class="form-label">Staff ID</label>
+                                                <input type="text" class="form-control" id="staffID" required>
+                                                <div class="invalid-feedback">Enter valid Staff ID.</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="jobRole" class="form-label">Job Role</label>
+                                                <select class="form-select" id="jobRole" required>
+                                                    <option value="">Select Role</option>
+                                                    <option value="Trainer">Trainer</option>
+                                                    <option value="Receptionist">Receptionist</option>
+                                                    <option value="Cleaner">Cleaner</option>
+                                                    <option value="Admin">Admin</option>
+                                                </select>
+                                                <div class="invalid-feedback">Select job role.</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 2: Account Info -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="accountNumber" class="form-label">Account Number</label>
+                                                <input type="text" class="form-control" id="accountNumber"
+                                                    pattern="\d{9,18}" required>
+                                                <div class="invalid-feedback">Enter valid account number (9–18 digits).
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="bankName" class="form-label">Bank Name</label>
+                                                <input type="text" class="form-control" id="bankName" required>
+                                                <div class="invalid-feedback">Enter bank name.</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 3: Salary & Date -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="salaryAmount" class="form-label">Salary Amount (₹)</label>
+                                                <input type="number" class="form-control" id="salaryAmount" min="0"
+                                                    required>
+                                                <div class="invalid-feedback">Enter salary amount.</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="paymentDate" class="form-label">Salary Date</label>
+                                                <input type="date" class="form-control" id="paymentDate" required>
+                                                <div class="invalid-feedback">Select payment date.</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="paymentMode" class="form-label">Payment Mode</label>
+                                                <select class="form-select" id="paymentMode" required>
+                                                    <option value="">Select Mode</option>
+                                                    <option value="Cash">Cash</option>
+                                                    <option value="Bank Transfer">Bank Transfer</option>
+                                                    <option value="UPI">UPI</option>
+                                                    <option value="Cheque">Cheque</option>
+                                                </select>
+                                                <div class="invalid-feedback">Select payment mode.</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit -->
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary px-4">Save Account</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- container-fluid -->
+                </div>
+                <!-- End Page-content -->
+
+               <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <script>document.write(new Date().getFullYear())</script> © Clivax Gym.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Designed & Developed <i class="mdi mdi-heart text-danger"></i> by <a
+                                        href="https://kavyainfoweb.com/" target="_blank" class="text-muted">Kavya
+                                        Infoweb
+                                        Pvt. Ltd.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               </footer>
+
+
+            </div>
+            <!-- end main content-->
+        </div>
+        <!-- end layout-wrapper -->
+
+
+        <div class="custom-setting bg-primary pe-0 d-flex flex-column rounded-start">
+            <button type="button" class="btn btn-wide border-0 text-white fs-20 avatar-sm rounded-end-0"
+                id="light-dark-mode">
+                <i class="mdi mdi-brightness-7 align-middle"></i>
+                <i class="mdi mdi-white-balance-sunny align-middle"></i>
+            </button>
+        </div>
+
+        <!-- JAVASCRIPT -->
+        <script src="assets/libs/jquery/jquery.min.js"></script>
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/node-waves/waves.min.js"></script>
+
+        <!-- SweetAlert2 CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- apexcharts -->
+        <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+
+        <script src="assets/js/pages/dashboard.init.js"></script>
+
+        <!-- App js -->
+        <script src="assets/js/app.js"></script>
+</body>
+
+</html>

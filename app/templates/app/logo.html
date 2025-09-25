@@ -1,0 +1,136 @@
+{% extends 'app/base1.html' %} {% block content %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- Page Title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-flex align-items-center justify-content-between"
+          >
+            <h4 class="mb-sm-0">Logo Settings</h4>
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Manage Logos</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+          <button
+            class="nav-link active"
+            id="updateLogoTab"
+            onclick="showLogoForm('updateLogo')"
+          >
+            Update Logo
+          </button>
+        </li>
+      </ul>
+
+      <!-- Update Logo Form -->
+      <div id="updateLogo">
+        <div class="card">
+          <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <!-- Row 1: Current Logos -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label>Current Small Logo</label>
+                  <div class="border p-2">
+                    {% if logos and logos.small_logo %}
+                    <img
+                      src="{{ logos.small_logo.url }}"
+                      height="40"
+                      class="img-fluid"
+                    />
+                    {% else %}
+                    <p>No Small Logo</p>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label>Current Large Logo</label>
+                  <div class="border p-2">
+                    {% if logos and logos.large_logo %}
+                    <img
+                      src="{{ logos.large_logo.url }}"
+                      height="100"
+                      class="img-fluid"
+                    />
+                    {% else %}
+                    <p>No Large Logo</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 2: Upload Logos -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label>Upload Small Logo</label>
+                  <input
+                    type="file"
+                    name="small_logo"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label>Upload Large Logo</label>
+                  <input
+                    type="file"
+                    name="large_logo"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Update Logos
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Logo Form -->
+      <div id="addLogo" style="display: none">
+        <div class="card">
+          <div class="card-header card-header-bordered">
+            <h3 class="card-title">Add New Logos</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showLogoForm(formId) {
+    document.getElementById("updateLogo").style.display = "none";
+    document.getElementById("addLogo").style.display = "none";
+    document.getElementById(formId).style.display = "block";
+
+    document.getElementById("updateLogoTab").classList.remove("active");
+    document.getElementById("addLogoTab").classList.remove("active");
+
+    if (formId === "updateLogo") {
+      document.getElementById("updateLogoTab").classList.add("active");
+    } else {
+      document.getElementById("addLogoTab").classList.add("active");
+    }
+  }
+</script>
+
+{% endblock %}

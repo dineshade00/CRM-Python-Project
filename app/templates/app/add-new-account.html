@@ -1,0 +1,150 @@
+{% extends 'app/base1.html' %}
+
+{% block content %}
+
+
+
+<div class="main-content">
+
+  <div class="page-content">
+    <div class="container-fluid">
+
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Add New Staff Account</h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Add New Staff Account</li>
+              </ol>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+
+      <!-- Add this in the body section -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header card-header-bordered">
+              <h3 class="card-title">Add Staff Salary Account</h3>
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            <div class="card-body">
+              <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <!-- Row 1: Staff Basic Info -->
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <label for="staffName" class="form-label">Staff Name</label>
+                    <input type="text" class="form-control" id="staffName" name="staffName" placeholder="Enter full name" required>
+                    <div class="invalid-feedback">Please enter staff name.</div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="staffID" class="form-label">Staff ID</label>
+                    <input type="text" class="form-control" id="staffID" name="staffID" placeholder="Enter ID" required>
+                    <div class="invalid-feedback">Enter valid Staff ID.</div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="jobRole" class="form-label">Job Role</label>
+                    <select class="form-select" id="jobRole" name="jobRole"  required>
+                      <option value="">Select Role</option>
+                      <option value="Trainer">Trainer</option>
+                      <option value="Receptionist">Receptionist</option>
+                      <option value="Cleaner">Cleaner</option>
+                      <option value="Admin">Admin</option>
+                    </select>
+                    <div class="invalid-feedback">Select job role.</div>
+                  </div>
+                </div>
+
+                <!-- Row 2: Account Info -->
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="accountNumber" class="form-label">Account Number</label>
+                    <input type="text" class="form-control" id="accountNumber" placeholder="Enter Account Number" name="accountNumber" pattern="\d{9,18}"
+                      required>
+                    <div class="invalid-feedback">Enter valid account number (9–18 digits).</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="bankName" class="form-label">Bank Name</label>
+                    <input type="text" class="form-control" id="bankName" placeholder="Enter Bank Name " name="bankName" required>
+                    <div class="invalid-feedback">Enter bank name.</div>
+                  </div>
+                </div>
+
+                <!-- Row 3: Salary & Date -->
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <label for="salaryAmount" class="form-label">Salary Amount (₹)</label>
+                    <input type="number" class="form-control" id="salaryAmount" placeholder="Enter Sallary Ammount " name="salaryAmount" min="0" required>
+                    <div class="invalid-feedback">Enter salary amount.</div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="paymentDate" class="form-label">Salary Date</label>
+                    <input type="date" class="form-control" id="paymentDate" name="paymentDate" required>
+                    <div class="invalid-feedback">Select payment date.</div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="paymentMode" class="form-label">Payment Mode</label>
+                    <select class="form-select" id="paymentMode" name="paymentMode" required>
+                      <option value="">Select Mode</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Bank Transfer">Bank Transfer</option>
+                      <option value="UPI">UPI</option>
+                      <option value="Cheque">Cheque</option>
+                    </select>
+                    <div class="invalid-feedback">Select payment mode.</div>
+                  </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-end">
+                  <button type="submit" class="btn btn-primary px-4">Save Account</button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-sm-6">
+            <script>document.write(new Date().getFullYear())</script> © Clivax Gym.
+          </div>
+          <div class="col-sm-6">
+            <div class="text-sm-end d-none d-sm-block">
+              Designed & Developed <i class="mdi mdi-heart text-danger"></i> by <a href="https://kavyainfoweb.com/"
+                target="_blank" class="text-muted">Kavya
+                Infoweb
+                Pvt. Ltd.</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+  </div>
+  <!-- end main content-->
+</div>
+
+
+{% endblock %}

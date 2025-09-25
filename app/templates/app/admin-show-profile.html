@@ -1,0 +1,379 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block content %}
+
+
+        <!-- Start right Content here -->
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0">Contact</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                        <li class="breadcrumb-item active">Contact</li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="bg-primary-subtle">
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <div class="text-primary p-3 mb-3">
+                                                <h5 class="text-primary">Welcome Back !</h5>
+                                                <p class="mb-0">{{ login_admin.username }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="align-self-end">
+                                                <img src="{% static 'assets/images/contact.png' %}" alt="" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="row align-items-end">
+                                        <div class="col-sm-4">
+                                            <div class="avatar-md mb-3 mt-n4">
+                                        {% if login_admin.profile_image %}
+                                            <img src="{{ login_admin.profile_image.url }}" alt=""
+                                                class="img-fluid avatar-circle bg-light p-2 border-2 border-primary">
+                                        {% else %}
+                                            <img src="{% static 'assets/images/default-avatar.png' %}" alt=""
+                                                class="img-fluid avatar-circle bg-light p-2 border-2 border-primary">
+                                        {% endif %}
+                                    </div>
+                                            <h5 class="fs-12 mb-1 text" style="white-space: nowrap;">{{ login_admin.first_name }} {{ login_admin.last_name }}</h5>
+
+                                            <p class="text-muted mb-1 text" style="white-space: nowrap" >Super Admin</p>
+                                        </div>
+
+                                        <div class="col-sm-8">
+                                            <div class="row ms-3">
+                                                <div class="col-6">
+                                                    <h5 class="fs-12 mb-1">{{ login_admin.experience }}</h5>
+                                                    <p class="text-muted mb-1" style="white-space:nowrap">Experience</p>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body border-top">
+                                    <h4 class="card-title mb-4">About</h4>
+                                    <p class="text-muted mb-4">{{ login_admin.about }}..</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-nowrap table-borderless mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row"><i
+                                                            class="mdi mdi-account align-middle text-primary me-2"></i>
+                                                        Full Name :</th>
+                                                    <td>{{ login_admin.first_name }} {{ login_admin.last_name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row"><i
+                                                            class="mdi mdi-cellphone align-middle text-primary me-2"></i>
+                                                        Mobile :</th>
+                                                    <td>{{ login_admin.contact }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row"><i class="mdi mdi-email text-primary me-2"></i>
+                                                        E-mail :</th>
+                                                    <td>{{ login_admin.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row"><i
+                                                            class="mdi mdi-google-maps text-primary me-2"></i> Location
+                                                        :</th>
+                                                    <td>{{ login_admin.address }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="card-body border-top">
+                                     <div class="card-body border-top">
+                            <h4 class="card-title mb-4">Experience</h4>
+                            <p class="text-muted">{{ login_admin.experience }}</p>
+                        </div>
+
+                        <!-- Education -->
+                        <div class="card-body border-top">
+                            <h4 class="card-title mb-4">Education</h4>
+                            <p class="text-muted">{{ login_admin.education }}</p>
+                        </div>
+
+                        <!-- Certification -->
+                        <div class="card-body border-top">
+                            <h4 class="card-title mb-4">Certification</h4>
+                            <p class="text-muted">{{ login_admin.certification }}</p>
+                        </div>
+                                    
+
+                                </div>
+                            </div>
+                            <!-- end card -->
+
+
+                        </div>
+
+                        <div class="col-xl-9">
+
+                            <div class="container mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Team Overview</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered table-striped w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Profile</th>
+                                                        <th>Full Name</th>
+                                                        <th>Experience</th>                                                   
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                            {% for admin in other_admins %}
+                                            <tr>
+                                                <td>
+                                                    {% if admin.profile_image %}
+                                                        <img src="{{ admin.profile_image.url }}" class="rounded-circle profile-img" width="40" height="40">
+                                                    {% else %}
+                                                        <img src="{% static 'assets/images/default-avatar.png' %}" class="rounded-circle profile-img" width="40" height="40">
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ admin.first_name }} {{ admin.last_name }}</td>
+                                                <td>{{ admin.experience }}</td>
+                                                <td>Admin</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="4" class="text-center">No other admins available</td>
+                                            </tr>
+                                            {% endfor %}
+                                              </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           {{ block.super }}
+                            <!-- Profile Modal -->
+                            <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header py-2">
+                                            <h6 class="modal-title fw-bold" id="profileModalLabel">Profile Details</h6>
+                                            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center p-3">
+                                            <img src="" id="modalProfileImg" class="rounded-square mb-2" width="100"
+                                                height="100" alt="Profile">
+                                            <h6 id="modalFullName"></h6>
+                                            <p class="mb-1 small">Experience: <span id="modalExperience"></span></p>
+                                            <p class="small">Role: <span id="modalWorkExp"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Script to Fill Modal Dynamically -->
+                           
+
+                            <div class="row">
+  <!-- Super Admin -->
+  <div class="col-md-4 col-sm-6 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="flex-shrink-0 align-self-center">
+            <div class="avatar-sm rounded bg-dark-subtle text-dark d-flex align-items-center justify-content-center">
+              <span class="avatar-title">
+                <i class="mdi mdi-shield-account fs-24"></i>
+              </span>
+            </div>
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <p class="text-muted fw-medium mb-2">Super Admin</p>
+            <h4 class="mb-0">1</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin -->
+  <div class="col-md-4 col-sm-6 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="flex-shrink-0 align-self-center">
+            <div class="avatar-sm rounded bg-warning-subtle text-warning d-flex align-items-center justify-content-center">
+              <span class="avatar-title">
+                <i class="mdi mdi-account-tie fs-24"></i>
+              </span>
+            </div>
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <p class="text-muted fw-medium mb-2">Admin</p>
+            <h4 class="mb-0">1</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sub Admins -->
+  <div class="col-md-4 col-sm-6 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="flex-shrink-0 align-self-center">
+            <div class="avatar-sm rounded bg-info-subtle text-info d-flex align-items-center justify-content-center">
+              <span class="avatar-title">
+                <i class="mdi mdi-account-multiple fs-24"></i>
+              </span>
+            </div>
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <p class="text-muted fw-medium mb-2">Sub Admins</p>
+            <h4 class="mb-0">3</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                          <div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Gym Time Table</h4>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table id="datatable"
+        class="table table-hover table-bordered table-striped dt-responsive nowrap"
+        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+        <thead class="table-success" style="background-color: #60C76D;">
+          <tr>
+            <th>Day</th>
+            <th>6:00 AM - 7:00 AM</th>
+            <th>7:00 AM - 8:00 AM</th>
+            <th>8:00 AM - 9:00 AM</th>
+            <th>5:00 PM - 6:00 PM</th>
+            <th>6:00 PM - 7:00 PM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Monday</td>
+            <td>Cardio</td>
+            <td>Strength</td>
+            <td>Yoga</td>
+            <td>Zumba</td>
+            <td>CrossFit</td>
+          </tr>
+          <tr>
+            <td>Tuesday</td>
+            <td>Yoga</td>
+            <td>Cardio</td>
+            <td>Strength</td>
+            <td>HIIT</td>
+            <td>Boxing</td>
+          </tr>
+          <tr>
+            <td>Wednesday</td>
+            <td>Zumba</td>
+            <td>CrossFit</td>
+            <td>Yoga</td>
+            <td>Strength</td>
+            <td>Cardio</td>
+          </tr>
+          <tr>
+            <td>Thursday</td>
+            <td>HIIT</td>
+            <td>Cardio</td>
+            <td>Strength</td>
+            <td>Zumba</td>
+            <td>Yoga</td>
+          </tr>
+          <tr>
+            <td>Friday</td>
+            <td>Boxing</td>
+            <td>Strength</td>
+            <td>Cardio</td>
+            <td>CrossFit</td>
+            <td>HIIT</td>
+          </tr>
+          <tr>
+            <td>Saturday</td>
+            <td>Yoga</td>
+            <td>Cardio</td>
+            <td>Zumba</td>
+            <td>Strength</td>
+            <td>Boxing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+                    <!-- end row -->
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- end row -->
+
+            <!-- RIGHT SIDE: Top Selling Products -->
+
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    </div>
+    <!-- end main content-->
+ <script>
+                                document.querySelectorAll('.view-btn').forEach(button => {
+                                    button.addEventListener('click', () => {
+                                        const row = button.closest('tr');
+                                        const img = row.querySelector('.profile-img').src;
+                                        const name = row.querySelector('.full-name').textContent;
+                                        const exp = row.querySelector('.experience').textContent;
+                                        const role = row.querySelector('.work-exp').textContent;
+
+                                        document.getElementById('modalProfileImg').src = img;
+                                        document.getElementById('modalFullName').textContent = name;
+                                        document.getElementById('modalExperience').textContent = exp;
+                                        document.getElementById('modalWorkExp').textContent = role;
+                                    });
+                                });
+                            </script>
+
+{% endblock %}

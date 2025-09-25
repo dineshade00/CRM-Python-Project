@@ -1,0 +1,417 @@
+{% extends "app/base1.html" %} {% load static %} {% block content %}
+
+<style>
+  .nav-tabs .nav-link {
+    background-color: #38c66c;
+    color: #000;
+    border: 1px solid #dee2e6;
+    cursor: pointer;
+  }
+
+  .nav-tabs .nav-link.active {
+    /* background-color: var(--primary-color); */
+    color: #fff;
+    border-color: var(--primary-color);
+  }
+
+  .admin-section {
+    display: none;
+  }
+
+  .admin-section.active {
+    display: block;
+  }
+
+  .bg-primary-custom {
+    background-color: var(--primary-color) !important;
+  }
+</style>
+
+<div class="main-content">
+  <div class="page-content">
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="renewalTabs" role="tablist">
+      <li class="nav-item">
+        <button
+          class="nav-link active"
+          id="tabAll-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#tabAll"
+          type="button"
+          role="tab"
+        >
+          All
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          id="tabMonth-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#tabMonth"
+          type="button"
+          role="tab"
+        >
+          Expiring This Month
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          id="tabExpired-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#tabExpired"
+          type="button"
+          role="tab"
+        >
+          Expired Member
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="renewalTabsContent">
+      <!-- Your unchanged HTML structure -->
+      <div class="tab-pane fade show active" id="tabAll" role="tabpanel">
+        <div class="card">
+          <div class="card-header bg-primary-custom text-dark">
+            All Renewals
+          </div>
+          <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-between mb-3">
+              <div>
+                <label
+                  >Show
+                  <select
+                    id="entriesSelect"
+                    class="form-select d-inline w-auto mx-2"
+                  >
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+              <div>
+                <input
+                  type="search"
+                  id="searchInput"
+                  class="form-control"
+                  placeholder="Search..."
+                />
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table
+                class="table table-bordered table-hover align-middle"
+                id="renewalTable"
+              >
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Profile</th>
+                    <th>Full Name</th>
+                    <th class="d-none d-md-table-cell">DOB</th>
+                    <th class="d-none d-md-table-cell">Email</th>
+                    <th class="d-none d-md-table-cell">Joining</th>
+                    <th class="d-none d-md-table-cell">Expired</th>
+                    <th class="d-none d-md-table-cell">Mode</th>
+                    <th class="d-none d-md-table-cell">Action</th>
+                    <th class="d-md-none">More</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for m in all_members %}
+                  <tr>
+                    <td>{{ m.id }}</td>
+                    <td>
+                      {% if m.photo %}
+                      <img
+                        src="{{ m.photo }}"
+                        class="profile-img"
+                        data-src="{{ m.photo }}"
+                        alt="Profile"
+                        style="width: 50px; height: 50px; cursor: pointer"
+                      />
+                      {% else %}
+                      <span>No Image</span>
+                      {% endif %}
+                    </td>
+
+                    <td>{{ m.name }}</td>
+                    <td>{{ m.dob }}</td>
+                    <td>{{ m.email }}</td>
+                    <td>{{ m.joining_date }}</td>
+                    <td>{{ m.expiry_date }}</td>
+                    <td>
+                      <span
+                        class="badge {% if m.status == 'Active' %} bg-success {% elif m.status == 'Expired' %} bg-danger {% elif m.status == 'Expiring Soon' %} bg-warning text-dark {% endif %}"
+                      >
+                        {{ m.status }}
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        href="{% url 'renew-plan' m.id %}"
+                        class="btn btn-sm btn-primary"
+                        >Renew Plan</a
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+              <nav>
+                <ul class="pagination pagination-sm mb-0" id="pagination"></ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expired This Month Tab -->
+      <div class="tab-pane fade" id="tabMonth" role="tabpanel">
+        <div class="card">
+          <div class="card-header bg-primary-custom text-dark">
+            Expiring This Month
+          </div>
+          <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-between mb-3">
+              <div>
+                <label
+                  >Show
+                  <select
+                    class="form-select d-inline w-auto mx-2"
+                    id="monthShowCount"
+                  >
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+              <div>
+                <input
+                  type="search"
+                  class="form-control"
+                  id="monthSearch"
+                  placeholder="Search..."
+                />
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table
+                class="table table-bordered table-hover align-middle"
+                id="monthTableCustom"
+              >
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Profile</th>
+                    <th>Full Name</th>
+                    <th class="d-none d-md-table-cell">DOB</th>
+                    <th class="d-none d-md-table-cell">Email</th>
+                    <th class="d-none d-md-table-cell">Joining</th>
+                    <th class="d-none d-md-table-cell">Expired</th>
+                    <th class="d-none d-md-table-cell">Action</th>
+                    <th class="d-md-none">More</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for m in expiring_this_month %}
+                  <tr>
+                    <td>{{ m.id }}</td>
+                    <td>{{ m.name }}</td>
+                    <td>{{ m.email }}</td>
+                    <td>{{ m.contact }}</td>
+                    <td>{{ m.membership_type }}</td>
+                    <td>{{ m.expiry_date }}</td>
+                    <td>
+                      <span class="badge bg-warning text-dark"
+                        >{{ m.status }}</span
+                      >
+                    </td>
+                    <td>
+                      <a
+                        href="{% url 'renew-plan' m.id %}"
+                        class="btn btn-sm btn-primary"
+                        >Renew Plan</a
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+              <nav>
+                <ul
+                  class="pagination pagination-sm mb-0"
+                  id="monthPagination"
+                ></ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expired Members Tab -->
+      <div class="tab-pane fade" id="tabExpired" role="tabpanel">
+        <div class="card">
+          <div class="card-header bg-primary-custom text-dark">
+            Expired Members
+          </div>
+          <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-between mb-3">
+              <div>
+                <label
+                  >Show
+                  <select
+                    class="form-select d-inline w-auto mx-2"
+                    id="expiredShowCount"
+                  >
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+              <div>
+                <input
+                  type="search"
+                  class="form-control"
+                  id="expiredSearch"
+                  placeholder="Search..."
+                />
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table
+                class="table table-bordered table-hover align-middle"
+                id="expiredTableCustom"
+              >
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Profile</th>
+                    <th>Full Name</th>
+                    <th class="d-none d-md-table-cell">DOB</th>
+                    <th class="d-none d-md-table-cell">Email</th>
+                    <th class="d-none d-md-table-cell">Joining</th>
+                    <th class="d-none d-md-table-cell">Expired</th>
+                    <th class="d-none d-md-table-cell">Action</th>
+                    <th class="d-md-none">More</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for m in expired_members %}
+                  <tr>
+                    <td>{{m.id}}</td>
+                    <td>{{ m.name }}</td>
+                    <td>{{ m.email }}</td>
+                    <td>{{ m.contact }}</td>
+                    <td>{{ m.membership_type }}</td>
+                    <td>{{ m.expiry_date }}</td>
+                    <td>
+                      <span class="badge bg-danger text-light"
+                        >{{ m.status }}</span
+                      >
+                    </td>
+                    <td>
+                      <a
+                        href="{% url 'renew-plan' m.id %}"
+                        class="btn btn-sm btn-primary"
+                        >Renew Plan</a
+                      >
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+              <nav>
+                <ul
+                  class="pagination pagination-sm mb-0"
+                  id="expiredPagination"
+                ></ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end main content-->
+
+  <script src="{% static 'assests/js/renewal.js' %}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Create popup elements dynamically
+      const popupOverlay = document.createElement("div");
+      popupOverlay.id = "popupOverlay";
+      popupOverlay.style.position = "fixed";
+      popupOverlay.style.top = "0";
+      popupOverlay.style.left = "0";
+      popupOverlay.style.width = "100%";
+      popupOverlay.style.height = "100%";
+      popupOverlay.style.background = "rgba(0,0,0,0.5)";
+      popupOverlay.style.display = "none";
+      popupOverlay.style.zIndex = "9998";
+      document.body.appendChild(popupOverlay);
+
+      const popup = document.createElement("div");
+      popup.id = "profilePopup";
+      popup.style.position = "fixed";
+      popup.style.top = "50%";
+      popup.style.left = "50%";
+      popup.style.transform = "translate(-50%, -50%)";
+      popup.style.maxWidth = "300px";
+      popup.style.maxHeight = "300px";
+      popup.style.borderRadius = "10px";
+      popup.style.boxShadow = "0 5px 25px rgba(0,0,0,0.5)";
+      popup.style.display = "none";
+      popup.style.zIndex = "9999";
+
+      const popupImg = document.createElement("img");
+      popupImg.style.width = "100%";
+      popupImg.style.height = "100%";
+      popupImg.style.objectFit = "cover";
+      popupImg.style.borderRadius = "10px";
+      popup.appendChild(popupImg);
+
+      document.body.appendChild(popup);
+
+      // Add hover event to all profile images
+      const profileImgs = document.querySelectorAll(".profile-img");
+      profileImgs.forEach((img) => {
+        img.addEventListener("mouseenter", function () {
+          const src = this.getAttribute("data-src");
+          popupImg.src = src;
+          popup.style.display = "block";
+          popupOverlay.style.display = "block";
+        });
+
+        img.addEventListener("mouseleave", function () {
+          popup.style.display = "none";
+          popupOverlay.style.display = "none";
+        });
+      });
+
+      // Close popup on overlay click
+      popupOverlay.addEventListener("click", () => {
+        popup.style.display = "none";
+        popupOverlay.style.display = "none";
+      });
+    });
+  </script>
+
+  {%endblock %}
+</div>

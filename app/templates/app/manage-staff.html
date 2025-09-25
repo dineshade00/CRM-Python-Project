@@ -1,0 +1,128 @@
+{% extends 'app/base1.html' %}
+{%load static %}
+{% block content %}
+     
+     
+     
+     <!-- ============================================================== -->
+      <!-- Start right Content here -->
+      <!-- ============================================================== -->
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+              <div class="col-12">
+                <div
+                  class="page-title-box d-flex align-items-center justify-content-between"
+                >
+                  <h4 class="mb-sm-0">Manage Staff</h4>
+
+                  <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                      <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                      </li>
+                      <li class="breadcrumb-item active">Manage Staff</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Manage Staff</h4>
+              </div>
+              <div class="container mt-3">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    {% if redirect_url %}
+      <script>
+        setTimeout(function(){
+          window.location.href = "{% url redirect_url %}";
+        }, 3000);
+      </script>
+    {% endif %}
+  {% endif %}
+</div>
+
+
+              <div class="card-body">
+  <form method="post" enctype="multipart/form-data" class="custom-validation">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <label>First Name</label>
+        <input type="text" name="first_name" value="{{ staff.first_name }}" class="form-control" required />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Last Name</label>
+        <input type="text" name="last_name" value="{{ staff.last_name }}" class="form-control" required />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Email Address</label>
+        <input type="email" name="email" value="{{ staff.email }}" class="form-control" required />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Contact No.</label>
+        <input type="number" name="contact" value="{{ staff.contact }}" class="form-control" required />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Job Role</label>
+        <select name="job_post" class="form-select" required>
+          <option value="">Select Role</option>
+          <option value="Fitness Trainer" {% if staff.job_post == "Fitness Trainer" %}selected{% endif %}>Fitness Trainer</option>
+          <option value="Receptionist" {% if staff.job_post == "Receptionist" %}selected{% endif %}>Receptionist</option>
+          <option value="Yoga Instructor" {% if staff.job_post == "Yoga Instructor" %}selected{% endif %}>Yoga Instructor</option>
+          <option value="Strength Coach" {% if staff.job_post == "Strength Coach" %}selected{% endif %}>Strength And Conditioning Coach</option>
+          <option value="CrossFit Coach" {% if staff.job_post == "CrossFit Coach" %}selected{% endif %}>CrossFit Coach</option>
+          <option value="Nutritionist" {% if staff.job_post == "Nutritionist" %}selected{% endif %}>Nutritionist</option>
+          <option value="Wellness Coach" {% if staff.job_post == "Wellness Coach" %}selected{% endif %}>Wellness Coach</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Joining Date</label>
+        <input type="date" name="joining_date" value="{{ staff.joining_date|date:'Y-m-d' }}" class="form-control" required />
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label>Photo</label>
+        <input type="file" name="photo" class="form-control" />
+        {% if staff.photo %}
+          <p class="mt-1 text-muted">Current: {{ staff.photo.name }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button type="submit" class="btn btn-success">Update</button>
+    </div>
+  </form>
+</div>
+
+            </div>
+
+            <!-- end row -->
+          </div>
+          <!-- container-fluid -->
+        </div>
+
+        
+
+        
+      </div>
+      <!-- end main content-->
+
+{% endblock %}

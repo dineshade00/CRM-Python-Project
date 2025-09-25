@@ -1,0 +1,136 @@
+{% extends 'app/base1.html' %} {% load static %} {% block content %}
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-flex align-items-center justify-content-between"
+          >
+            <h4 class="mb-sm-0"></h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Plan Update</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="container mt-0">
+        <div class="card">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Renew Membership Plan</h4>
+            </div>
+            <div class="card-body">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                  <!-- Name -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ member.first_name }} {{ member.last_name }}"
+                      readonly
+                    />
+                  </div>
+
+                  <!-- Email -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      value="{{ member.email }}"
+                      readonly
+                    />
+                  </div>
+
+                  <!-- Current Expiry -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Current Expiry</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ member.expiry_date }}"
+                      readonly
+                    />
+                  </div>
+
+                  <!-- Membership -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">New Membership Type</label>
+                    <select name="membership_type" class="form-select" required>
+                      <option value="">Select Membership Type</option>
+                      <option value="1 month plan">1 month plan</option>
+                      <option value="3 month plan">3 month plan</option>
+                      <option value="6 month plan">6 month plan</option>
+                    </select>
+                  </div>
+
+                  <!-- New Expiry -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">New Expiry Date</label>
+                    <input
+                      type="date"
+                      name="expiry_date"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+
+                  <!-- Amount Paid -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Amount Paid (₹)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="amount_paid"
+                      min="0"
+                      required
+                    />
+                  </div>
+
+                  <!-- Due Amount -->
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Due Amount (₹)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="due_amount"
+                      min="0"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="text-end">
+                  <button type="submit" class="btn btn-primary">
+                    Renew Plan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end main content-->
+
+{% endblock %}

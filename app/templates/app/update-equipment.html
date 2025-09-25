@@ -1,0 +1,169 @@
+{% extends 'app/base1.html' %} 
+{% load static %} 
+{% block content %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- Page Title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-flex align-items-center justify-content-between"
+          >
+            <h4 class="mb-sm-0"></h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Update Equipment</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mt-0">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Update Equipment</h4>
+          </div>
+
+          {% if messages %}
+          <div id="message-box">
+            {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+          </div>
+          <script>
+            setTimeout(function () {
+              let box = document.getElementById("message-box");
+              if (box) {
+                box.style.display = "none";
+              }
+            }, 3000);
+          </script>
+          {% endif %}
+
+          <div class="card-body">
+            <form
+              method="POST"
+              enctype="multipart/form-data"
+              class="custom-validation"
+            >
+              {% csrf_token %}
+              <div class="row">
+                <!-- Equipment Name -->
+                <div class="col-md-4 mb-3">
+                  <label>Equipment Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="equipment_name"
+                    value="{{ equipment.equipment_name }}"
+                    required
+                  />
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-4 mb-3">
+                  <label>Category</label>
+                  <select class="form-select" name="category" required>
+                    <option value="">Select Category</option>
+                    <option {% if equipment.category == "Cardio" %}selected{% endif %}>Cardio</option>
+                    <option {% if equipment.category == "Strength" %}selected{% endif %}>Strength</option>
+                    <option {% if equipment.category == "Flexibility" %}selected{% endif %}>Flexibility</option>
+                  </select>
+                </div>
+
+                <!-- Brand -->
+                <div class="col-md-4 mb-3">
+                  <label>Brand</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="brand"
+                    value="{{ equipment.brand }}"
+                    required
+                  />
+                </div>
+
+                <!-- Purchase Date -->
+                <div class="col-md-4 mb-3">
+                  <label>Purchase Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="purchase_date"
+                    value="{{ equipment.purchase_date|date:'Y-m-d' }}"
+                    required
+                  />
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-4 mb-3">
+                  <label>Status</label>
+                  <select class="form-select" name="status" required>
+                    <option value="">Select Status</option>
+                    <option {% if equipment.status == "Active" %}selected{% endif %}>Active</option>
+                    <option {% if equipment.status == "Under Maintenance" %}selected{% endif %}>Under Maintenance</option>
+                    <option {% if equipment.status == "Inactive" %}selected{% endif %}>Inactive</option>
+                  </select>
+                </div>
+
+                <!-- Location -->
+                <div class="col-md-4 mb-3">
+                  <label>Location</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="location"
+                    value="{{ equipment.location }}"
+                    required
+                  />
+                </div>
+
+                <!-- Maintenance Date -->
+                <div class="col-md-4 mb-3">
+                  <label>Maintenance Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="maintenance_date"
+                    value="{{ equipment.maintenance_date|date:'Y-m-d' }}"
+                    required
+                  />
+                </div>
+
+                <!-- Image -->
+                <div class="col-md-4 mb-3">
+                  <label>Equipment Image</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="image"
+                    accept=".jpg,.jpeg,.png"
+                  />
+                  {% if equipment.image %}
+                  <small>Current: <img src="{{ equipment.image.url }}" width="50"></small>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="mb-0 text-end">
+                <a href="{% url 'show-equipment' %}" class="btn btn-secondary">
+                  Cancel
+                </a>
+                <button type="submit" class="btn btn-success">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
